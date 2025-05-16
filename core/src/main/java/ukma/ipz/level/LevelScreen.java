@@ -20,35 +20,20 @@ public class LevelScreen implements Screen {
 
     final GameEntry game;
     final Level level;
+    final Player player;
 
-    Player player = new Player();
 
-
-    public LevelScreen(final GameEntry game, Level level) {
+    public LevelScreen(final GameEntry game, Level level, Player player) {
         this.game = game;
         this.level = level;
+        this.player = player;
+        player.move(Direction.DOWN);
+        player.finalizeMove();
         player.sprite.setPosition(level.X, level.Y);
-//        game.cam = new OrthographicCamera(8, 5);
-        game.cam = new OrthographicCamera(17, 11);
+        game.cam = new OrthographicCamera(level.scaleX, level.scaleY);
         game.cam.position.set(level.X +0.5f, level.Y +0.5f, 0);
         game.cam.update();
 
-        level.tiles[1][1].occupied=true;
-        level.tiles[2][1].occupied=true;
-        level.tiles[3][1].occupied=true;
-        level.tiles[5][0].action =() -> {
-            System.out.println("Tile action triggered");
-            level.tiles[6][0].occupied=!level.tiles[6][0].occupied;
-        };
-        level.tiles[0][1].action =() -> {
-            System.out.println("Tile action 2 triggered");
-            level.tiles[0][2].occupied=true;
-        };
-        level.tiles[0][25].occupied=true;
-        level.tiles[0][25].interaction=() -> {
-            System.out.println("Interaction triggered");
-            blockAction(500);
-        };
     }
 
     @Override
@@ -103,7 +88,6 @@ public class LevelScreen implements Screen {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("FPS: "+Gdx.graphics.getFramesPerSecond()+"\n");
-//        stringBuilder.append("Player  X:"+player.sprite.getX()+" Y:"+player.sprite.getY()+"\n");
         stringBuilder.append("Player  X:"+level.X+" Y:"+level.Y+"\n");
         stringBuilder.append("Player current texture: "+player.sprite.getTexture().toString()+"\n");
         stringBuilder.append("Camera X:"+game.cam.position.x+" Y:"+game.cam.position.y+"\n");
@@ -221,16 +205,21 @@ public class LevelScreen implements Screen {
         level.sprite.draw(game.batch);
         player.sprite.draw(game.batch);
 
-        game.font.draw(game.batch, telemetry, game.cam.position.x-8, game.cam.position.y+5.5f);
-//        game.font.draw(game.batch, telemetry, game.cam.position.x-4, game.cam.position.y+2.5f);
+        game.font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
+        game.font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
 
 
         game.batch.end();
     }
 
+    boolean canResize=false;
+
     @Override
     public void resize(int width, int height) {
-        game.viewport.update(width, height, true);
+//        game.cam.update();
+        if (canResize){
+            game.viewport.update(width, height, true);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ public class Level {
     Sprite sprite;
     int sizeX, sizeY;
     int X, Y;
+    int scaleX=17; int scaleY=11;
     Tile[][] tiles = new Tile[sizeX][sizeY];
 
     public Level(Texture texture, int sizeX, int sizeY, int initialX, int initialY) {
@@ -19,6 +20,12 @@ public class Level {
         this.sprite = new Sprite(texture);
         sprite.setSize(sizeX, sizeY);
         emptyTiles();
+    }
+
+    public Level(Texture texture, int sizeX, int sizeY, int initialX, int initialY, int scaleX, int scaleY) {
+        this(texture, sizeX, sizeY, initialX, initialY);
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
     }
 
     void emptyTiles() {

@@ -1,3 +1,7 @@
+# Спудей-mon!
+Велкам на гітхаб незабутнього літнього проєкту. Тут буде інфа про гру загалом.
+
+Нижче буде опис структури проєкту на libGDX
 # gdx-setup
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
