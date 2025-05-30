@@ -41,11 +41,13 @@ public class LevelManager {
             firstCorridor.Y=3;
             loadLevel(firstCorridor);};
         initial.tiles[4][4].action=fEtofC;
-        initial.tiles[5][4].action=fEtofC;
+//        initial.tiles[5][4].action=fEtofC;
+        initial.tiles[5][3].occupied=true;
+        initial.otherTextures.add(new LevelTexture("intro_girl.png", 5, 3 ));
 
         firstCorridor = new Level(new Texture("isometric\\real_bgr.png"),40, 26, 4, 3);
         firstCorridor.tiles[3][3].action=() -> {
-            initial.X=5;
+            initial.X=4;
             initial.Y=3;
             loadLevel(initial);};
     }

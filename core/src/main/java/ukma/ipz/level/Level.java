@@ -3,6 +3,8 @@ package ukma.ipz.level;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import java.util.ArrayList;
+
 public class Level {
     Texture texture;
     Sprite sprite;
@@ -10,6 +12,7 @@ public class Level {
     int X, Y;
     int scaleX=17; int scaleY=11;
     Tile[][] tiles = new Tile[sizeX][sizeY];
+    ArrayList<LevelTexture> otherTextures = new ArrayList<>();
 
     public Level(Texture texture, int sizeX, int sizeY, int initialX, int initialY) {
         this.sizeX = sizeX;

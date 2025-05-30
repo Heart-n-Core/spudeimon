@@ -204,6 +204,11 @@ public class LevelScreen implements Screen {
 
         level.sprite.draw(game.batch);
         player.sprite.draw(game.batch);
+        for (LevelTexture levelTexture : level.otherTextures){
+            if (levelTexture!=null&&levelTexture.sprite!=null){
+                levelTexture.sprite.draw(game.batch);
+            }
+        }
 
         game.font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
         game.font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
