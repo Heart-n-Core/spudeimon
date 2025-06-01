@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ukma.ipz.Action;
 import ukma.ipz.Direction;
@@ -21,19 +22,20 @@ public class LevelScreen implements Screen {
     final GameEntry game;
     final Level level;
     final Player player;
+    static BitmapFont font  = new BitmapFont();
 
 
     public LevelScreen(final GameEntry game, Level level, Player player) {
         this.game = game;
         this.level = level;
         this.player = player;
+        font.setUseIntegerPositions(false);
         player.move(Direction.DOWN);
         player.finalizeMove();
         player.sprite.setPosition(level.X, level.Y);
         game.cam = new OrthographicCamera(level.scaleX, level.scaleY);
         game.cam.position.set(level.X +0.5f, level.Y +0.5f, 0);
         game.cam.update();
-
     }
 
     @Override
@@ -50,9 +52,24 @@ public class LevelScreen implements Screen {
 
     private boolean noAction = true;
     int currentKey = 0;
+    boolean dialogNow = false;
 
     private void input(){
         if (noAction) {
+            if (dialogNow) {
+                if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                   if (level.dialog.hasNext()){
+                       level.dialog.nextLine();
+                   }
+                   else {
+                       dialogNow=false;
+                        if (level.dialog.afterAction!=null){level.dialog.afterAction.execute();}
+                       level.dialog=null;
+                   }
+                    blockAction(100);
+                }
+                return;
+            }
             if (Gdx.input.isKeyPressed(currentKey)) {
                 noAction = false;
                 move(currentKey);
@@ -74,7 +91,7 @@ public class LevelScreen implements Screen {
         }
     }
 
-    List<ProlongedAction> actions = new ArrayList<ProlongedAction>();
+    List<ProlongedAction> actions = new ArrayList<>();
 
     private void logic(){
         float delta = Gdx.graphics.getDeltaTime();
@@ -181,6 +198,10 @@ public class LevelScreen implements Screen {
             return;
         }
         executeInteraction(level.tiles[newX][newY].interaction);
+        blockAction(100);
+        if (level.dialog!=null){
+            dialogNow=true;
+        }
     }
 
     private boolean isInRange(int newX, int newY){
@@ -210,9 +231,10 @@ public class LevelScreen implements Screen {
             }
         }
 
-        game.font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
-        game.font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
+        font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
+        font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
 
+        if (dialogNow){level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), level.scaleX, level.scaleY, game.cam.position.x, game.cam.position.y);}
 
         game.batch.end();
     }
@@ -221,7 +243,6 @@ public class LevelScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-//        game.cam.update();
         if (canResize){
             game.viewport.update(width, height, true);
         }

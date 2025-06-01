@@ -22,14 +22,10 @@ public class GameEntry extends Game {
         // use libGDX's default font
         font = new BitmapFont();
         viewport = new FitViewport(8, 5);
-        //font has 15pt, but we need to scale it to our viewport by ratio of viewport height to screen height
         font.setUseIntegerPositions(false);
 
-        LevelManager manager = new LevelManager();
-//        LevelScreen screen = new LevelScreen(this, manager.getInitialLevel(), manager.getPlayer());
-//        manager.setup(this, screen);
-//        this.setScreen(screen);
-        manager.setup(this);
+        LevelManager levelManager = new LevelManager();
+        levelManager.setup(this);
     }
 
     public void render() {
