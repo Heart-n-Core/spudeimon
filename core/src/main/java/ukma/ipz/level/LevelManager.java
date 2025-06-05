@@ -63,8 +63,35 @@ public class LevelManager {
             initial.Y=3;
             loadLevel(initial);};
 
-        for (int i = 0; i < 25; i++)
-            firstPlatz.tiles[i][10].occupied=true;
+        // стіна першого корпусу на вихід в плац
+        for (int i = 3; i <= 16; i++) {
+            if (i == 9)
+                continue;
+            firstPlatz.tiles[i][4].occupied=true;
+        }
+
+        // ліва межа до виходу на Іллінській
+        for (int i = 0; i <= 4; i++)
+            firstPlatz.tiles[16][i].occupied=true;
+
+        // права межа до виходу на Іллінській
+        for (int i = 0; i <= 8; i++) {
+            firstPlatz.tiles[18][i].occupied=true;
+        }
+
+        // ворота в перший плац
+        firstPlatz.tiles[2][5].occupied=true;
+        firstPlatz.tiles[2][6].occupied=true;
+
+        // 3 корпус
+
+        // стіна біля воріт
+        firstPlatz.tiles[3][6].occupied=true;
+        firstPlatz.tiles[4][6].occupied=true;
+
+        // стіна перпендикулярна попередній
+//        firstPlatz.tiles.
+
     }
 
     void loadLevel(Level level){
