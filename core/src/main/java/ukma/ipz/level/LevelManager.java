@@ -89,9 +89,95 @@ public class LevelManager {
         firstPlatz.tiles[3][6].occupied=true;
         firstPlatz.tiles[4][6].occupied=true;
 
-        // стіна перпендикулярна попередній
-//        firstPlatz.tiles.
 
+        // стіна перпендикулярна попередній (ліва стіна 3 плацу)
+        firstPlatz.tiles[4][7].occupied=true;
+
+        // стіна перпендикулярна попередній (нижня стіна впадини 3 плацу)
+        firstPlatz.tiles[3][7].occupied=true;
+
+        // стіна перпендикулярна попередній (ліва стіна впадини 3 плацу)
+        firstPlatz.tiles[2][8].occupied=true;
+        firstPlatz.tiles[2][9].occupied=true;
+
+//         стіна перпендикулярна попередній (верхня стіна впадини 3 плацу)
+        firstPlatz.tiles[3][10].occupied=true;
+        firstPlatz.tiles[4][10].occupied=true;
+        firstPlatz.tiles[5][10].occupied=true;
+        firstPlatz.tiles[6][10].occupied=true;
+
+        // ліва стіна 3 плацу, яка ближча жо горького
+        firstPlatz.tiles[6][11].occupied=true;
+
+        // нижня стіна верхньої впадини
+        firstPlatz.tiles[5][11].occupied=true;
+        firstPlatz.tiles[4][11].occupied=true;
+        firstPlatz.tiles[3][11].occupied=true;
+
+        //ліва стіна верхньої впадини
+        firstPlatz.tiles[3][12].occupied=true;
+        for (int i = 12; i <= 20; i++)
+            firstPlatz.tiles[4][i].occupied=true;
+
+        // прохід за 2 корпусом
+        for (int i = 5; i <= 9; i++)
+            firstPlatz.tiles[i][17].occupied=true;
+
+        firstPlatz.tiles[10][17].occupied=true;
+        firstPlatz.tiles[10][16].occupied=true;
+        firstPlatz.tiles[10][15].occupied=true;
+        firstPlatz.tiles[10][14].occupied=true;
+
+        for (int i = 10; i <= 16; i++)
+            firstPlatz.tiles[i][14].occupied=true;
+
+
+        // 2 корпус
+        for (int i = 9; i <= 18; i++) {
+            for (int j = 11; j < 12; j++) {
+                firstPlatz.tiles[i][j].occupied=true;
+            }
+        }
+
+        // бібліо
+        // ліва будівля
+        for (int i = 15; i <= 20; i++) {
+            firstPlatz.tiles[15][i].occupied=true;
+        }
+        //власне вхід бібліо + музей
+        for (int i = 15; i <= 24; i++) {
+            firstPlatz.tiles[i][17].occupied=true;
+            firstPlatz.tiles[i][18].occupied=true;
+
+        }
+
+        //власне бібліо
+        for (int i = 18; i <= 20; i++) {
+            for (int j = 13; j <= 16; j++) {
+                firstPlatz.tiles[i][j].occupied=true;
+            }
+        }
+
+        // церква
+        for (int i = 22; i <= 25; i++) {
+            for (int j = 14; j <= 16; j++) {
+                firstPlatz.tiles[i][j].occupied=true;
+            }
+        }
+
+        // вся ділянка біля недобудованого корпусу + лікарні
+        for (int i = 19; i <= 32; i++) {
+            for (int j = 0; j <= 8; j++) {
+                firstPlatz.tiles[i][j].occupied=true;
+            }
+        }
+
+        // будівля між плацами
+        for (int i = 28; i <= 30; i++) {
+            for (int j = 11; j <= 19; j++) {
+                firstPlatz.tiles[i][j].occupied=true;
+            }
+        }
     }
 
     void loadLevel(Level level){
