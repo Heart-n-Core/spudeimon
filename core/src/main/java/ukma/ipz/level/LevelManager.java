@@ -101,10 +101,14 @@ public class LevelManager {
         firstPlatz.tiles[2][9].occupied=true;
 
 //         стіна перпендикулярна попередній (верхня стіна впадини 3 плацу)
-        firstPlatz.tiles[3][10].occupied=true;
-        firstPlatz.tiles[4][10].occupied=true;
-        firstPlatz.tiles[5][10].occupied=true;
-        firstPlatz.tiles[6][10].occupied=true;
+//        firstPlatz.tiles[3][10].occupied=true;
+//        firstPlatz.tiles[4][10].occupied=true;
+//        firstPlatz.tiles[5][10].occupied=true;
+//        firstPlatz.tiles[6][10].occupied=true;
+        firstPlatz.tiles[3][9].occupied=true;
+        firstPlatz.tiles[4][9].occupied=true;
+        firstPlatz.tiles[5][9].occupied=true;
+        firstPlatz.tiles[6][9].occupied=true;
 
         // ліва стіна 3 плацу, яка ближча жо горького
         firstPlatz.tiles[6][11].occupied=true;
@@ -134,7 +138,7 @@ public class LevelManager {
 
         // 2 корпус
         for (int i = 9; i <= 18; i++) {
-            for (int j = 11; j < 12; j++) {
+            for (int j = 10; j < 12; j++) {
                 firstPlatz.tiles[i][j].occupied=true;
             }
         }
@@ -159,7 +163,7 @@ public class LevelManager {
         }
 
         // церква
-        for (int i = 22; i <= 25; i++) {
+        for (int i = 22; i <= 26; i++) {
             for (int j = 14; j <= 16; j++) {
                 firstPlatz.tiles[i][j].occupied=true;
             }
@@ -174,10 +178,15 @@ public class LevelManager {
 
         // будівля між плацами
         for (int i = 28; i <= 30; i++) {
-            for (int j = 11; j <= 19; j++) {
+            for (int j = 10; j <= 19; j++) {
                 firstPlatz.tiles[i][j].occupied=true;
             }
         }
+
+        //Church exit
+        firstPlatz.tiles[25][18].occupied=true;firstPlatz.tiles[26][18].occupied=true;firstPlatz.tiles[27][18].occupied=true;
+        //Old right side
+        firstPlatz.tiles[31][14].occupied=true;firstPlatz.tiles[32][14].occupied=true;firstPlatz.tiles[32][13].occupied=true;firstPlatz.tiles[32][12].occupied=true;firstPlatz.tiles[32][11].occupied=true;firstPlatz.tiles[32][10].occupied=true;
     }
 
     void loadLevel(Level level){
