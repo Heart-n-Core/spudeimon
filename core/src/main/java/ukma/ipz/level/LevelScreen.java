@@ -106,7 +106,7 @@ public class LevelScreen implements Screen {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("FPS: "+Gdx.graphics.getFramesPerSecond()+"\n");
         stringBuilder.append("Player  X:"+level.X+" Y:"+level.Y+"\n");
-        stringBuilder.append("Player current texture: "+player.sprite.getTexture().toString()+"\n");
+//        stringBuilder.append("Player current texture: "+player.sprite.getTexture().toString()+"\n");
         stringBuilder.append("Camera X:"+game.cam.position.x+" Y:"+game.cam.position.y+"\n");
         telemetry = stringBuilder.toString();
 
