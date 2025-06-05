@@ -38,6 +38,9 @@ public class LevelManager {
         initial.tiles[8][2].occupied=true;
         initial.tiles[9][2].occupied=true;
         initial.tiles[9][3].occupied=true;
+        for (int i = 0; i < 25; i++)
+            initial.tiles[i][10].occupied=true;
+
         Action fEtofC = () -> {
             firstPlatz.X=9;
             firstPlatz.Y=5;
