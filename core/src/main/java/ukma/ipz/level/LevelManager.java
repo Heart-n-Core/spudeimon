@@ -12,6 +12,7 @@ public class LevelManager {
 
     Level initial;
     Level firstPlatz;
+    Level secondPlatz;
 
     public LevelManager() {
         loadFirst();
@@ -26,6 +27,7 @@ public class LevelManager {
     private void loadFirst(){
         initial = new Level(new Texture("isometric\\levels\\1_entrance.jpg"), 10, 7, 1, 0, 8, 5);
         firstPlatz = new Level(new Texture("isometric\\levels\\first_platz.png"),33, 21, 3, 5);
+        secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"),35, 26, 3, 5);
 
         initial.tiles[0][2].occupied=true;
         initial.tiles[1][2].occupied=true;
@@ -187,6 +189,18 @@ public class LevelManager {
         firstPlatz.tiles[25][18].occupied=true;firstPlatz.tiles[26][18].occupied=true;firstPlatz.tiles[27][18].occupied=true;
         //Old right side
         firstPlatz.tiles[31][14].occupied=true;firstPlatz.tiles[32][14].occupied=true;firstPlatz.tiles[32][13].occupied=true;firstPlatz.tiles[32][12].occupied=true;firstPlatz.tiles[32][11].occupied=true;firstPlatz.tiles[32][10].occupied=true;
+        firstPlatz.tiles[32][9].action = () -> {
+            secondPlatz.X=23;
+            secondPlatz.Y=8;
+            loadLevel(secondPlatz);
+        };
+        Action secondPlatzToFirstPlatz = () -> {
+            firstPlatz.X=31;
+            firstPlatz.Y=9;
+            loadLevel(firstPlatz);
+        };
+        secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
+
     }
 
     void loadLevel(Level level){
