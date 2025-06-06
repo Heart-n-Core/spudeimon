@@ -201,6 +201,52 @@ public class LevelManager {
         };
         secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
 
+
+        // 2 плац
+        // будівля праворуч
+        for (int i = 24; i <= 30; i++) {
+            secondPlatz.tiles[i][7].occupied = true;
+        }
+
+        //стіна праворуч на вулицю
+        for (int i = 8; i <= 11; i++) {
+            secondPlatz.tiles[31][i].occupied = true;
+        }
+
+        // верхня стіна
+        for (int i = 26; i <= 31; i++) {
+            secondPlatz.tiles[i][12].occupied = true;
+        }
+
+        // права стіна КМЦ
+        for (int i = 12; i <= 19; i++) {
+            secondPlatz.tiles[26][i].occupied = true;
+        }
+
+        // нижня стіна КМЦ
+        for (int i = 6; i <= 25; i++) {
+            secondPlatz.tiles[i][19].occupied = true;
+        }
+
+        // права стіна готелю
+        for (int i = 15; i <= 19; i++) {
+            secondPlatz.tiles[5][i].occupied = true;
+        }
+
+        // права стіна поруч з готелем
+        for (int i = 6; i <= 15; i++) {
+            secondPlatz.tiles[4][i].occupied = true;
+        }
+
+        // ліва стіна дальньої будівлі від входу
+        for (int i = 4; i <= 14; i++) {
+            secondPlatz.tiles[i][6].occupied = true;
+        }
+
+        // ліва стіна ближньої будівлі від входу
+        for (int i = 15; i <= 22; i++) {
+            secondPlatz.tiles[i][7].occupied = true;
+        }
     }
 
     void loadLevel(Level level){
