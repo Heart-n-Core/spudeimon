@@ -55,6 +55,7 @@ public class LevelManager {
                 System.out.println("Dialog end");
                 //@TODO first fight starts here
 
+
                 //One time dialog
 //                initial.tiles[5][3].interaction = null;
             });
