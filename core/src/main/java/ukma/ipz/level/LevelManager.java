@@ -14,6 +14,9 @@ public class LevelManager {
     Level firstPlatz;
     Level secondPlatz;
 
+    Level firstBuildFloor1;
+    Level firstBuildFloor2;
+
     public LevelManager() {
         loadFirst();
     }
@@ -28,6 +31,9 @@ public class LevelManager {
         initial = new Level(new Texture("isometric\\levels\\1_entrance.jpg"), 10, 7, 1, 0, 8, 5);
         firstPlatz = new Level(new Texture("isometric\\levels\\first_platz.png"),33, 21, 3, 5);
         secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"),35, 26, 3, 5);
+        firstBuildFloor1 = new Level(new Texture("isometric\\levels\\firstBuildFloor1.png"), 33, 17, 1, 1, 8, 5);
+        firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 8, 5);
+
 
         initial.tiles[0][2].occupied=true;
         initial.tiles[1][2].occupied=true;
@@ -41,9 +47,11 @@ public class LevelManager {
         initial.tiles[9][2].occupied=true;
         initial.tiles[9][3].occupied=true;
         Action fEtofC = () -> {
-            firstPlatz.X=9;
-            firstPlatz.Y=5;
-            loadLevel(firstPlatz);};
+            firstBuildFloor1.X=26;
+            firstBuildFloor1.Y=1;
+//            loadLevel(firstPlatz);
+            loadLevel(firstBuildFloor1);
+        };
         initial.tiles[4][4].action=fEtofC;
 //        initial.tiles[5][4].action=fEtofC;
         initial.tiles[5][3].occupied=true;
@@ -61,10 +69,26 @@ public class LevelManager {
             });
         };
         initial.tiles[5][3].interaction = dial1;
-        firstPlatz.tiles[9][4].action=() -> {
+        Action firstBtoInitial = () -> {
             initial.X=4;
             initial.Y=3;
-            loadLevel(initial);};
+            loadLevel(initial);
+        };
+        firstBuildFloor1.tiles[26][0].action=firstBtoInitial;firstBuildFloor1.tiles[25][0].action=firstBtoInitial;firstBuildFloor1.tiles[24][0].action=firstBtoInitial;firstBuildFloor1.tiles[27][0].action=firstBtoInitial;firstBuildFloor1.tiles[28][0].action=firstBtoInitial;
+
+        Action firstBtoFirstPlatz = () -> {
+            firstPlatz.X=9;
+            firstPlatz.Y=5;
+            loadLevel(firstPlatz);
+        };
+        firstBuildFloor1.tiles[3][0].action=firstBtoFirstPlatz;firstBuildFloor1.tiles[4][0].action=firstBtoFirstPlatz;
+        firstPlatz.tiles[9][4].action = () -> {
+            firstBuildFloor1.X = 4;
+            firstBuildFloor1.Y = 1;
+            loadLevel(firstBuildFloor1);
+        };
+
+
 
         // стіна першого корпусу на вихід в плац
         for (int i = 3; i <= 16; i++) {
@@ -135,9 +159,11 @@ public class LevelManager {
         firstPlatz.tiles[10][15].occupied=true;
         firstPlatz.tiles[10][14].occupied=true;
 
-        for (int i = 10; i <= 16; i++)
-            firstPlatz.tiles[i][14].occupied=true;
+        for (int i = 10; i <= 16; i++) {
+            firstPlatz.tiles[i][14].occupied = true;
+            firstPlatz.tiles[i][13].occupied = true;
 
+        }
 
         // 2 корпус
         for (int i = 9; i <= 18; i++) {
