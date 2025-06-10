@@ -1,9 +1,13 @@
 package ukma.ipz.level;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import ukma.ipz.Action;
 import ukma.ipz.Dialog;
 import ukma.ipz.GameEntry;
+import ukma.ipz.fight.Fight;
+import ukma.ipz.fight.FightScreen;
+import ukma.ipz.fight.Types;
 
 public class LevelManager {
     LevelScreen levelScreen;
@@ -16,6 +20,8 @@ public class LevelManager {
 
     Level firstBuildFloor1;
     Level firstBuildFloor2;
+
+    int playerLvl=1;
 
     public LevelManager() {
         loadFirst();
@@ -57,12 +63,23 @@ public class LevelManager {
         initial.tiles[5][3].occupied=true;
         initial.otherTextures.add(new LevelTexture("intro_girl.png", 5, 3 ));
         String[] dialogIntro = {"Привіт, рефрешику :)", "Мене звати Беатріче.\nА ти, либонь, та сама \"темна конячка\",\nпро яку всі так балакають.", "Тут розпочнеться твій шлях спудея.\nПопереду буде багато викликів.\nХоча, якщо ти тут, то наснаги тобі не бракує.", "Але годі балакати.\nШлях до істини лежить у дебатах!\nОтож en garde, monsieur!"};
+        Action initialFightAction = () -> {
+            initial.X=5;
+            initial.Y=2;
+            loadLevel(initial);
+        };
+        Action initialFightWinAction = () -> {
+            initial.otherTextures.clear();
+            initial.tiles[5][3].interaction = null;
+            initial.tiles[5][3].occupied=false;
+        };
+        Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), Types.FI, playerLvl,"Беатріче", new Texture("isometric\\npc\\intro_girl.png"), Types.FI,1, initialFightAction, initialFightWinAction);
 
         Action dial1 = () -> {
             initial.dialog = new Dialog(dialogIntro, () -> {
                 System.out.println("Dialog end");
                 //@TODO first fight starts here
-
+                loadFight(initialFight);
 
                 //One time dialog
 //                initial.tiles[5][3].interaction = null;
@@ -78,7 +95,7 @@ public class LevelManager {
 
         Action firstBtoFirstPlatz = () -> {
             firstPlatz.X=9;
-            firstPlatz.Y=6;
+            firstPlatz.Y=5;
             loadLevel(firstPlatz);
         };
         firstBuildFloor1.tiles[3][0].action=firstBtoFirstPlatz;firstBuildFloor1.tiles[4][0].action=firstBtoFirstPlatz;
@@ -87,18 +104,19 @@ public class LevelManager {
             firstBuildFloor1.Y = 1;
             loadLevel(firstBuildFloor1);
         };
-
-        firstBuildFloor1.tiles[29][12].action = () -> {
+        Action firstBfirstFtosndF = () -> {
             firstBuildFloor2.X = 14;
-            firstBuildFloor2.Y = 9;
+            firstBuildFloor2.Y = 8;
             loadLevel(firstBuildFloor2);
         };
+        firstBuildFloor1.tiles[29][12].action = firstBfirstFtosndF;firstBuildFloor1.tiles[30][12].action = firstBfirstFtosndF;
 
-        firstBuildFloor2.tiles[14][9].action = () -> {
+        Action firstBsndFtofirstF=() -> {
             firstBuildFloor1.X = 29;
-            firstBuildFloor1.Y = 12;
-            loadLevel(firstBuildFloor1);
-        };
+            firstBuildFloor1.Y = 11;
+            loadLevel(firstBuildFloor1);};
+        firstBuildFloor2.tiles[14][9].action = firstBsndFtofirstF;firstBuildFloor2.tiles[15][9].action = firstBsndFtofirstF;
+
         {
             // стіна першого корпусу на вихід в плац
             for (int i = 3; i <= 16; i++) {
@@ -398,12 +416,20 @@ public class LevelManager {
         firstBuildFloor1.tiles[10][16].occupied = true;
 
         firstBuildFloor1.tiles[18][14].occupied = true;
+
     }
 
     void loadLevel(Level level){
         levelScreen.canResize = false;
         levelScreen = new LevelScreen(game, level, player);
         game.setScreen(levelScreen);
+        levelScreen.canResize = true;
+    }
+
+    void loadFight(Fight fight){
+        levelScreen.canResize = false;
+        Screen fightScreen = new FightScreen(game, fight);
+        game.setScreen(fightScreen);
         levelScreen.canResize = true;
     }
 

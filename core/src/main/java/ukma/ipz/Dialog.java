@@ -66,4 +66,10 @@ public class Dialog {
 
     }
 
+    public static void renderTransparent(String content, float relX, float relY, float fontSize, Color color,  SpriteBatch batch) {
+        font.setColor(color);
+        font.getData().setScale(fontSize);
+//        font.setColor(Color.BLACK);
+        font.draw(batch, content, relX, relY);
+    }
 }

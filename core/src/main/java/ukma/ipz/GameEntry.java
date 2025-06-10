@@ -21,7 +21,8 @@ public class GameEntry extends Game {
         batch = new SpriteBatch();
         // use libGDX's default font
         font = new BitmapFont();
-        viewport = new FitViewport(8, 5);
+//        viewport = new FitViewport(8, 5);
+        viewport = new FitViewport(16, 9);
         font.setUseIntegerPositions(false);
 
         LevelManager levelManager = new LevelManager();
