@@ -21,6 +21,8 @@ public class LevelManager {
     Level firstBuildFloor1;
     Level firstBuildFloor2;
 
+    Level kmz;
+
     int playerLvl=1;
 
     public LevelManager() {
@@ -39,7 +41,7 @@ public class LevelManager {
         secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"),35, 26, 3, 5);
         firstBuildFloor1 = new Level(new Texture("isometric\\levels\\firstBuildFloor1.png"), 33, 17, 1, 1, 11, 7);
         firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 8, 5);
-
+        kmz = new Level(new Texture("isometric\\levels\\kmz.png"), 40, 20, 3, 5);
 
         initial.tiles[0][2].occupied=true;
         initial.tiles[1][2].occupied=true;
@@ -311,6 +313,19 @@ public class LevelManager {
             secondPlatz.tiles[i][7].occupied = true;
         }
         }
+
+        secondPlatz.tiles[22][19].occupied = false;
+        secondPlatz.tiles[22][19].action = () -> {
+            kmz.X=27;
+            kmz.Y=3;
+            loadLevel(kmz);
+        };
+
+        kmz.tiles[27][2].action = () -> {
+            secondPlatz.X = 22;
+            secondPlatz.Y = 18;
+            loadLevel(secondPlatz);
+        };
 
         // перший поверх
         // ліва і права стіна від зеленого виходу
