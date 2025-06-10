@@ -417,6 +417,77 @@ public class LevelManager {
 
         firstBuildFloor1.tiles[18][14].occupied = true;
 
+        firstBuildFloor2.tiles[12][9].occupied = true;
+        firstBuildFloor2.tiles[13][9].occupied = true;
+
+        for (int i = 16; i <= 24; i++) {
+            firstBuildFloor2.tiles[i][9].occupied = true;
+        }
+        for (int i = 0; i <= 10; i++)
+            firstBuildFloor2.tiles[24][i].occupied = true;
+
+        for (int i = 12; i <= 24; i++) {
+            firstBuildFloor2.tiles[i][0].occupied = true;
+        }
+
+        for (int i = 0; i <= 3; i++) {
+            firstBuildFloor2.tiles[12][i].occupied = true;
+        }
+
+        for (int i = 6; i <= 9; i++) {
+            firstBuildFloor2.tiles[12][i].occupied = true;
+        }
+
+        for (int i = 0; i <= 11; i++) {
+            firstBuildFloor2.tiles[i][3].occupied = true;
+        }
+
+        for (int i = 5; i <= 11; i++) {
+            firstBuildFloor2.tiles[i][7].occupied = true;
+        }
+
+        for (int i = 4; i <= 7; i++) {
+            firstBuildFloor2.tiles[1][i].occupied = true;
+        }
+
+        firstBuildFloor2.tiles[2][6].occupied = true;
+        firstBuildFloor2.tiles[2][7].occupied = true;
+
+        for (int i = 7; i <= 13; i++) {
+            firstBuildFloor2.tiles[0][i].occupied = true;
+        }
+
+        for (int i = 0; i <= 7; i++) {
+            firstBuildFloor2.tiles[i][13].occupied = true;
+        }
+
+        for (int i = 7; i <= 13; i++) {
+            firstBuildFloor2.tiles[7][i].occupied = true;
+        }
+
+        firstBuildFloor2.tiles[1][12].occupied = true;
+        firstBuildFloor2.tiles[2][12].occupied = true;
+        firstBuildFloor2.tiles[5][12].occupied = true;
+        firstBuildFloor2.tiles[6][12].occupied = true;
+
+        firstBuildFloor2.tiles[2][10].occupied = true;
+        firstBuildFloor2.tiles[3][10].occupied = true;
+
+        firstBuildFloor2.tiles[23][5].occupied = true;
+        firstBuildFloor2.tiles[23][4].occupied = true;
+        firstBuildFloor2.tiles[23][3].occupied = true;
+
+        firstBuildFloor2.tiles[19][7].occupied = true;
+        firstBuildFloor2.tiles[20][7].occupied = true;
+
+        firstBuildFloor2.tiles[22][7].occupied = true;
+        firstBuildFloor2.tiles[23][7].occupied = true;
+
+        for (int i = 16; i <= 20; i++)
+            for (int j = 1; j <= 3; j++)
+                firstBuildFloor2.tiles[i][j].occupied = true;
+
+
     }
 
     void loadLevel(Level level){
