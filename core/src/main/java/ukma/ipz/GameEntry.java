@@ -20,6 +20,7 @@ public class GameEntry extends Game {
     public int level = 1;
     public String playerName = "Гравець";
     public Types type = Types.FI;
+//public Types type = Types.FHN;
 
     @Override
     public void create() {

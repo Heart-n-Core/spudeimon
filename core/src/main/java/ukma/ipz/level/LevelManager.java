@@ -159,7 +159,7 @@ public class LevelManager {
             };
             Action winAction = () -> {
                 game.level+=2;
-
+                removeDialB1BlockCorridor.execute();
                 firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
             };
             Fight boss1Fight = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФІ", new Texture("isometric\\npc\\boss1.png"), Types.FI, 2, afterAction, winAction);

@@ -46,8 +46,10 @@ public class FightScreen implements Screen {
 
         actionSelector.setSize(12, 8);
         actionSelector.setPosition(-0.5f, 0);
-        actionDescriptor.setSize(6, 18);
-        actionDescriptor.setPosition(10.2f, -0.5f);
+//        actionDescriptor.setSize(6, 18);
+//        actionDescriptor.setPosition(10.2f, -0.5f);
+        actionDescriptor.setSize(6, 21);
+        actionDescriptor.setPosition(10.2f, -1.35f);
         float selectorFwidth = 5;
         selectorFocus.setSize(selectorFwidth, (float)(selectorFwidth/7.4));
         selectorFocus.setPosition(0.55f, 1.28f);
