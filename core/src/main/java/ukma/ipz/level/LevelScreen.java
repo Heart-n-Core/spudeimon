@@ -50,8 +50,8 @@ public class LevelScreen implements Screen {
         draw();
     }
 
-    private boolean noAction = true;
-    int currentKey = 0;
+    public boolean noAction = true;
+    public int currentKey = 0;
     boolean dialogNow = false;
 
     private void input(){
@@ -66,13 +66,23 @@ public class LevelScreen implements Screen {
                         if (level.dialog.afterAction!=null){level.dialog.afterAction.execute();}
                        level.dialog=null;
                    }
-                    blockAction(100);
+                    blockAction(500);
                 }
                 return;
             }
-            if (Gdx.input.isKeyPressed(currentKey)) {
-                noAction = false;
-                move(currentKey);
+//            else if (Gdx.input.isKeyPressed(currentKey)) {
+//                noAction = false;
+//                move(currentKey);}
+            if (externalDirection!=null){
+                int key = 0;
+                switch (externalDirection){
+                    case LEFT: key=Input.Keys.LEFT;break;
+                    case RIGHT: key=Input.Keys.RIGHT;break;
+                    case UP: key=Input.Keys.UP;break;
+                    case DOWN: key=Input.Keys.DOWN;break;
+                }
+                externalDirection=null;
+                move(key);
             }else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 currentKey=Input.Keys.UP;
                 move(currentKey);
@@ -88,12 +98,29 @@ public class LevelScreen implements Screen {
             }else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
                 interact();
             }
+
+             if (Gdx.input.isKeyPressed(Input.Keys.F3)) {
+                displayTelemetry = !displayTelemetry;
+                blockAction(100);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.F2)) {
+                noClip = !noClip;
+                blockAction(100);
+            }
         }
     }
 
     List<ProlongedAction> actions = new ArrayList<>();
 
+    //Debug vars
+
+    boolean noClip = false;
+    boolean displayTelemetry = true;
+
+    public Direction externalDirection;
     private void logic(){
+
+
         float delta = Gdx.graphics.getDeltaTime();
         List<ProlongedAction> toRemove = new ArrayList<>();
         for (ProlongedAction action : actions) {
@@ -108,12 +135,13 @@ public class LevelScreen implements Screen {
         stringBuilder.append("Player  X:"+level.X+" Y:"+level.Y+"\n");
 //        stringBuilder.append("Player current texture: "+player.sprite.getTexture().toString()+"\n");
         stringBuilder.append("Camera X:"+game.cam.position.x+" Y:"+game.cam.position.y+"\n");
+        stringBuilder.append("noClip "+(noClip?"ENABLED":"DISABLED")+"\n");
         telemetry = stringBuilder.toString();
 
 
     }
 
-    private void blockAction(long delay){
+    public void blockAction(long delay){
         noAction = false;
         TimerTask tt = new TimerTask() {
             @Override
@@ -124,7 +152,7 @@ public class LevelScreen implements Screen {
         Timer timer = new Timer();
         timer.schedule(tt, delay);
     }
-    private void blockAction(long delay, Action action){
+    public void blockAction(long delay, Action action){
         noAction = false;
         TimerTask tt = new TimerTask() {
             @Override
@@ -140,7 +168,7 @@ public class LevelScreen implements Screen {
     float camSpeed=10f;
     float camDuration = 1/camSpeed;
 
-    private void move(int currentKey){
+    public void move(int currentKey){
         //Calculate move
         float movCamX = 0;
         float movCamY = 0;
@@ -161,7 +189,7 @@ public class LevelScreen implements Screen {
             return;
         }
         Tile tile = level.tiles[newX][newY];
-        if (tile.occupied){
+        if (tile.occupied&&!noClip){
             player.finalizeMove();
             blockAction(50);
             return;
@@ -199,7 +227,7 @@ public class LevelScreen implements Screen {
         }
         executeInteraction(level.tiles[newX][newY].interaction);
         blockAction(100);
-        if (level.dialog!=null){
+        if(level.dialog!=null){
             dialogNow=true;
         }
     }
@@ -209,7 +237,10 @@ public class LevelScreen implements Screen {
     }
 
     private void executeAction(Action action){
-        if (action!=null)action.execute();
+        if (action!=null&&!noClip)action.execute();
+        if(level.dialog!=null){
+            dialogNow=true;
+        }
     }
     private void executeInteraction(Action interaction){
         if (interaction!=null)interaction.execute();
@@ -232,9 +263,13 @@ public class LevelScreen implements Screen {
         }
 
         font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
-        font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
-
-        if (dialogNow){level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), level.scaleX, level.scaleY, game.cam.position.x, game.cam.position.y);}
+        if (displayTelemetry){
+            font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
+        }
+        if (dialogNow){
+            level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), level.scaleX, level.scaleY, game.cam.position.x, game.cam.position.y);
+//            level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 8, 5, game.cam.position.x, game.cam.position.y);
+        }
 
         game.batch.end();
     }

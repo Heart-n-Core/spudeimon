@@ -20,8 +20,10 @@ public class Dialog {
     private Iterator<String> it;
     public Action afterAction;
 
-    private Texture boxTexture = new Texture("isometric\\dialog_bar.png");
-    Sprite boxSprite = new Sprite(boxTexture);
+//    private Texture boxTexture = new Texture("isometric\\dialog_bar.png");
+//    private Texture boxTexture;
+//    Sprite boxSprite = new Sprite(boxTexture);
+static Sprite boxSprite;
 
 //    BitmapFont font = new BitmapFont();
     static FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("isometric\\NotoSans.ttf"));
@@ -29,13 +31,22 @@ public class Dialog {
     static BitmapFont font;
 
     static {
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS +
+//        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS +
+//            "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
+//            "абвгґдеєжзиіїйклмнопрстуфхцчшщъыьэюя";
+//        parameter.size = 12;
+//        font = generator.generateFont(parameter);
+        //        parameter.magFilter = Texture.TextureFilter.Linear;
+//        parameter.minFilter = Texture.TextureFilter.Linear;
+        System.out.println("Dialog class loaded at: " + System.currentTimeMillis());
+
+        boxSprite = new Sprite(new Texture("isometric\\dialog_bar.png"));
+        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + //temp solution
             "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
             "абвгґдеєжзиіїйклмнопрстуфхцчшщъыьэюя";
         parameter.size = 12;
-//        parameter.magFilter = Texture.TextureFilter.Linear;
-//        parameter.minFilter = Texture.TextureFilter.Linear;
         font = generator.generateFont(parameter);
+        generator.dispose();
     }
 
 
@@ -44,16 +55,26 @@ public class Dialog {
         this.afterAction = afterAction;
     }
     public Dialog(String[] lines) {
+
         this.lines = new ArrayList<>(Arrays.asList(lines));
         it = this.lines.iterator();
         font.setUseIntegerPositions(false);
         nextLine();
     }
+    public void regenerate(String[] lines, Action afterAction) {
+        this.lines = new ArrayList<>(Arrays.asList(lines));
+        it = this.lines.iterator();
+        this.afterAction = afterAction;
+        nextLine();
+    }
+
     public boolean hasNext() {
         return it.hasNext();
     }
     public void nextLine() {
-        if (!it.hasNext()) {return;}
+        if (!it.hasNext()) {
+            generator.dispose();
+            return;}
         currentLine = it.next();
     }
     public void render(SpriteBatch batch, int absX, int absY, int relX, int relY, float camX, float camY) {

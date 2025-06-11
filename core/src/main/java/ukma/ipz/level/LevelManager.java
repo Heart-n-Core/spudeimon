@@ -1,9 +1,11 @@
 package ukma.ipz.level;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import ukma.ipz.Action;
 import ukma.ipz.Dialog;
+import ukma.ipz.Direction;
 import ukma.ipz.GameEntry;
 import ukma.ipz.fight.Fight;
 import ukma.ipz.fight.FightScreen;
@@ -61,7 +63,7 @@ public class LevelManager {
             loadLevel(firstBuildFloor1);
         };
         initial.tiles[4][4].action=fEtofC;
-//        initial.tiles[5][4].action=fEtofC;
+        initial.tiles[5][4].action=fEtofC;
         initial.tiles[5][3].occupied=true;
         initial.otherTextures.add(new LevelTexture("intro_girl.png", 5, 3 ));
         String[] dialogIntro = {"Привіт, рефрешику :)", "Мене звати Беатріче.\nА ти, либонь, та сама \"темна конячка\",\nпро яку всі так балакають.", "Тут розпочнеться твій шлях спудея.\nПопереду буде багато викликів.\nХоча, якщо ти тут, то наснаги тобі не бракує.", "Але годі балакати.\nШлях до істини лежить у дебатах!\nОтож en garde, monsieur!"};
@@ -77,15 +79,14 @@ public class LevelManager {
         };
         Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), Types.FI, playerLvl,"Беатріче", new Texture("isometric\\npc\\intro_girl.png"), Types.FI,1, initialFightAction, initialFightWinAction);
 
-        Action dial1 = () -> {
-            initial.dialog = new Dialog(dialogIntro, () -> {
-                System.out.println("Dialog end");
-                //@TODO first fight starts here
-                loadFight(initialFight);
+        Dialog statDial  = new Dialog(dialogIntro, () -> {
+            System.out.println("Dialog end");
+            //@TODO first fight starts here
+            loadFight(initialFight);
+        });
 
-                //One time dialog
-//                initial.tiles[5][3].interaction = null;
-            });
+        Action dial1 = () -> {
+            initial.dialog = statDial;
         };
         initial.tiles[5][3].interaction = dial1;
         Action firstBtoInitial = () -> {
@@ -94,6 +95,30 @@ public class LevelManager {
             loadLevel(initial);
         };
         firstBuildFloor1.tiles[26][0].action=firstBtoInitial;firstBuildFloor1.tiles[25][0].action=firstBtoInitial;firstBuildFloor1.tiles[24][0].action=firstBtoInitial;firstBuildFloor1.tiles[27][0].action=firstBtoInitial;firstBuildFloor1.tiles[28][0].action=firstBtoInitial;
+
+        LevelTexture firstBcorridorBlocking = new LevelTexture("firstBcorridorBlocking.png", 4, 5);
+        firstBuildFloor1.otherTextures.add(firstBcorridorBlocking);
+        firstBuildFloor1.tiles[4][5].occupied=true;
+//        firstBuildFloor1.tiles[3][4].occupied=true;
+        Action dialB1BlockCorridor = () -> {
+            String[] lines = new String[]{"О, привіт, друже, а ти заходив на кафедру інформатики на 2 поверсі?\r\nТам роздають автомати з ІНФОПОШУКУ!!!\r\nНу ж бо, поспіши, доки маєш таку змогу!"};
+            firstBuildFloor1.dialog = new Dialog(lines, () -> {
+                levelScreen.externalDirection= Direction.UP;
+            });
+//            statDial.regenerate(lines, () -> {levelScreen.externalDirection= Direction.UP;});
+//            firstBuildFloor1.dialog = statDial;
+        };
+        firstBuildFloor1.tiles[4][5].interaction = dialB1BlockCorridor;
+        firstBuildFloor1.tiles[3][5].action=dialB1BlockCorridor;
+        Action removeDialB1BlockCorridor = () -> {
+            firstBuildFloor1.tiles[4][5].occupied=false;
+            firstBuildFloor1.otherTextures.remove(firstBcorridorBlocking);
+            firstBuildFloor1.tiles[3][5].action=null;
+            firstBuildFloor1.tiles[4][5].interaction = null;
+//            firstBuildFloor1.tiles[3][4].occupied=false;
+
+        };
+
 
         Action firstBtoFirstPlatz = () -> {
             firstPlatz.X=9;
