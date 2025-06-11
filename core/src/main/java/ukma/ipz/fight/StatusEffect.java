@@ -7,6 +7,7 @@ public class StatusEffect {
     boolean recent=true;
     Action entryAction;
     Action exitAction;
+    boolean good = false;
     StatusEffect(int movesLeft, Action entryAction, Action exitAction) {
         this.movesLeft = movesLeft;
         this.entryAction = entryAction;

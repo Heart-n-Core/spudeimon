@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import ukma.ipz.fight.Types;
 import ukma.ipz.level.LevelManager;
 import ukma.ipz.level.LevelScreen;
 
@@ -15,6 +16,10 @@ public class GameEntry extends Game {
     public FitViewport viewport;
 
     public OrthographicCamera cam;
+
+    public int level = 1;
+    public String playerName = "Гравець";
+    public Types type = Types.FI;
 
     @Override
     public void create() {

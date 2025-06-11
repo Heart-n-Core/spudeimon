@@ -85,6 +85,10 @@ public class FightScreen implements Screen {
                 //Breakpoint
                 blockAction(100);
             }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) {
+                fight.fightResult=true;
+                exitFight();
+            }
             if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 //                fight.fightResult = true;
 //                exitFight();
@@ -136,6 +140,7 @@ public class FightScreen implements Screen {
                             blockAction(finalMove.animationDelayMs, () -> {
                                 //TODO animation after messages runs here
                                 finalMove.moveAction.execute();
+                                fighter.processEffects();
                                 fighter.OP++;
 
                                 if (opponent.hp<=0){
@@ -170,6 +175,7 @@ public class FightScreen implements Screen {
                                                             //TODO animation after messages runs here
                                                             finalOppMove.moveAction.execute();
                                                             opponent.OP++;
+                                                            opponent.processEffects();
                                                             if (player.hp<=0){
                                                                 state = States.RESULT;
                                                                 fight.fightResult = false;

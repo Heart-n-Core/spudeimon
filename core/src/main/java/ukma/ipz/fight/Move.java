@@ -54,6 +54,11 @@ public class Move {
                     dealDamage(bigDamage, fighter);
                 };
                 typeMoves[0] = sqlInjection;typeMoves[1]=DDDosAttack;typeMoves[2]=RootAcess;
+                break;
+            }
+            case FHN:{
+
+                break;
             }
         }
         Move rest = new Move(fighter, "Відпочинок", 0);

@@ -36,6 +36,7 @@ public class LevelScreen implements Screen {
         game.cam = new OrthographicCamera(level.scaleX, level.scaleY);
         game.cam.position.set(level.X +0.5f, level.Y +0.5f, 0);
         game.cam.update();
+        blockAction(250);
     }
 
     @Override

@@ -25,14 +25,15 @@ public class LevelManager {
 
     Level kmz;
 
-    int playerLvl=1;
+//    int playerLvl=1;
 
     public LevelManager() {
-        loadFirst();
+//        loadFirst();
     }
 
     public void setup(GameEntry game) {
         this.game = game;
+        loadFirst();
         levelScreen = new LevelScreen(game, initial, player);
         loadLevel(initial);
     }
@@ -42,20 +43,12 @@ public class LevelManager {
         firstPlatz = new Level(new Texture("isometric\\levels\\first_platz.png"),33, 21, 3, 5);
         secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"),35, 26, 3, 5);
         firstBuildFloor1 = new Level(new Texture("isometric\\levels\\firstBuildFloor1.png"), 33, 17, 1, 1, 11, 7);
-        firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 8, 5);
+        firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 11, 7);
         kmz = new Level(new Texture("isometric\\levels\\kmz.png"), 40, 20, 3, 5);
 
-        initial.tiles[0][2].occupied=true;
-        initial.tiles[1][2].occupied=true;
-        initial.tiles[2][2].occupied=true;
-        initial.tiles[3][2].occupied=true;
-        initial.tiles[3][3].occupied=true;
-        initial.tiles[6][3].occupied=true;
-        initial.tiles[6][2].occupied=true;
-        initial.tiles[7][2].occupied=true;
-        initial.tiles[8][2].occupied=true;
-        initial.tiles[9][2].occupied=true;
-        initial.tiles[9][3].occupied=true;
+        setupTiles();
+
+
         Action fEtofC = () -> {
             firstBuildFloor1.X=26;
             firstBuildFloor1.Y=1;
@@ -76,8 +69,10 @@ public class LevelManager {
             initial.otherTextures.clear();
             initial.tiles[5][3].interaction = null;
             initial.tiles[5][3].occupied=false;
+            game.level++;
+            initial.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
         };
-        Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), Types.FI, playerLvl,"Беатріче", new Texture("isometric\\npc\\intro_girl.png"), Types.FI,1, initialFightAction, initialFightWinAction);
+        Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\intro_girl.png"), Types.FI,1, initialFightAction, initialFightWinAction);
 
         Dialog statDial  = new Dialog(dialogIntro, () -> {
             System.out.println("Dialog end");
@@ -138,11 +133,107 @@ public class LevelManager {
         };
         firstBuildFloor1.tiles[29][12].action = firstBfirstFtosndF;firstBuildFloor1.tiles[30][12].action = firstBfirstFtosndF;
 
+        //Second floor
         Action firstBsndFtofirstF=() -> {
             firstBuildFloor1.X = 29;
             firstBuildFloor1.Y = 11;
             loadLevel(firstBuildFloor1);};
         firstBuildFloor2.tiles[14][9].action = firstBsndFtofirstF;firstBuildFloor2.tiles[15][9].action = firstBsndFtofirstF;
+
+        //content
+        generateStaticNPC(firstBuildFloor2, new LevelTexture("1Bhint1.png", 17, 4), new String[]{"Якщо ти зазнав поразки, завжди можна спробувати стати сильнішим\r\nу боротьбі з опонентом, якого здолав у дебатах раніше.", "Просто не  здавайся ;)"}, () -> {});
+        LevelTexture coffee1 = new LevelTexture("coffee1.png", 19, 3);
+        firstBuildFloor2.otherTextures.add(coffee1);
+        firstBuildFloor2.tiles[19][3].interaction = () -> {game.level+=1; firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" знайшов філіжанку кави та підвищився до "+game.level+" рівня!"}, () -> {firstBuildFloor2.tiles[19][3].interaction=null; firstBuildFloor2.otherTextures.remove(coffee1);});};
+
+        //Boss
+        LevelTexture boss1 = new LevelTexture("boss1.png", 4, 10);
+        firstBuildFloor2.otherTextures.add(boss1);
+        firstBuildFloor2.tiles[4][10].occupied=true;
+        firstBuildFloor2.tiles[4][10].interaction = () -> {
+            String[] lines  = {"Що вершить долю людства у цьому світі?\r\nЯкась незрима істота чи закон, подібно до Длані Господньої,\r\nщо ширяє над світом?", "Принаймні істинно те, що людина не має навіть своєї волі,\r\nне кажучи вже про автомат з інфопошуку.\r\nПодивимося, як першокурсники готуються до заліку!"};
+            Action afterAction = () -> {
+                firstBuildFloor2.X = 4;
+                firstBuildFloor2.Y = 9;
+                loadLevel(firstBuildFloor2);
+            };
+            Action winAction = () -> {
+                game.level+=2;
+
+                firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
+            };
+            Fight boss1Fight = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФІ", new Texture("isometric\\npc\\boss1.png"), Types.FI, 2, afterAction, winAction);
+            firstBuildFloor2.dialog = new Dialog(lines, () -> {
+                loadFight(boss1Fight);
+            });
+        };
+
+
+        Action secondPlatzToFirstPlatz = () -> {
+            firstPlatz.X=31;
+            firstPlatz.Y=9;
+            loadLevel(firstPlatz);
+        };
+        secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
+
+
+
+        secondPlatz.tiles[22][19].occupied = false;
+        secondPlatz.tiles[22][19].action = () -> {
+            kmz.X=27;
+            kmz.Y=3;
+            loadLevel(kmz);
+        };
+
+        kmz.tiles[27][2].action = () -> {
+            secondPlatz.X = 22;
+            secondPlatz.Y = 18;
+            loadLevel(secondPlatz);
+        };
+
+    }
+
+    void generateStaticNPC(Level level, LevelTexture levelTexture, String[] lines, Action action) {
+        level.tiles[levelTexture.x][levelTexture.y].occupied=true;
+        level.tiles[levelTexture.x][levelTexture.y].interaction = () -> {
+            level.dialog = new Dialog(lines, action);
+        };
+        level.otherTextures.add(levelTexture);
+    }
+
+    void loadLevel(Level level){
+        levelScreen.canResize = false;
+        levelScreen = new LevelScreen(game, level, player);
+        game.setScreen(levelScreen);
+        levelScreen.canResize = true;
+    }
+
+    void loadFight(Fight fight){
+        levelScreen.canResize = false;
+        Screen fightScreen = new FightScreen(game, fight);
+        game.setScreen(fightScreen);
+        levelScreen.canResize = true;
+    }
+
+    public Level getInitialLevel() {
+        return initial;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+
+    private void setupTiles(){
+        initial.tiles[0][2].occupied=true;
+        initial.tiles[1][2].occupied=true;
+        initial.tiles[2][2].occupied=true;
+        initial.tiles[3][2].occupied=true;
+        initial.tiles[3][3].occupied=true;
+        initial.tiles[6][3].occupied=true;
+        initial.tiles[6][2].occupied=true;
+        initial.tiles[7][2].occupied=true;
+        initial.tiles[8][2].occupied=true;
+        initial.tiles[9][2].occupied=true;
+        initial.tiles[9][3].occupied=true;
 
         {
             // стіна першого корпусу на вихід в плац
@@ -284,73 +375,55 @@ public class LevelManager {
                 loadLevel(secondPlatz);
             };
         }
-        Action secondPlatzToFirstPlatz = () -> {
-            firstPlatz.X=31;
-            firstPlatz.Y=9;
-            loadLevel(firstPlatz);
-        };
-        secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
 
         {
-        // 2 плац
-        // будівля праворуч
-        for (int i = 24; i <= 30; i++) {
-            secondPlatz.tiles[i][7].occupied = true;
+            // 2 плац
+            // будівля праворуч
+            for (int i = 24; i <= 30; i++) {
+                secondPlatz.tiles[i][7].occupied = true;
+            }
+
+            //стіна праворуч на вулицю
+            for (int i = 8; i <= 11; i++) {
+                secondPlatz.tiles[31][i].occupied = true;
+            }
+
+            // верхня стіна
+            for (int i = 26; i <= 31; i++) {
+                secondPlatz.tiles[i][12].occupied = true;
+            }
+
+            // права стіна КМЦ
+            for (int i = 12; i <= 19; i++) {
+                secondPlatz.tiles[26][i].occupied = true;
+            }
+
+            // нижня стіна КМЦ
+            for (int i = 6; i <= 25; i++) {
+                secondPlatz.tiles[i][19].occupied = true;
+            }
+
+            // права стіна готелю
+            for (int i = 15; i <= 19; i++) {
+                secondPlatz.tiles[5][i].occupied = true;
+            }
+
+            // права стіна поруч з готелем
+            for (int i = 6; i <= 15; i++) {
+                secondPlatz.tiles[4][i].occupied = true;
+            }
+
+            // ліва стіна дальньої будівлі від входу
+            for (int i = 4; i <= 14; i++) {
+                secondPlatz.tiles[i][6].occupied = true;
+            }
+
+            // ліва стіна ближньої будівлі від входу
+            for (int i = 15; i <= 22; i++) {
+                secondPlatz.tiles[i][7].occupied = true;
+            }
         }
 
-        //стіна праворуч на вулицю
-        for (int i = 8; i <= 11; i++) {
-            secondPlatz.tiles[31][i].occupied = true;
-        }
-
-        // верхня стіна
-        for (int i = 26; i <= 31; i++) {
-            secondPlatz.tiles[i][12].occupied = true;
-        }
-
-        // права стіна КМЦ
-        for (int i = 12; i <= 19; i++) {
-            secondPlatz.tiles[26][i].occupied = true;
-        }
-
-        // нижня стіна КМЦ
-        for (int i = 6; i <= 25; i++) {
-            secondPlatz.tiles[i][19].occupied = true;
-        }
-
-        // права стіна готелю
-        for (int i = 15; i <= 19; i++) {
-            secondPlatz.tiles[5][i].occupied = true;
-        }
-
-        // права стіна поруч з готелем
-        for (int i = 6; i <= 15; i++) {
-            secondPlatz.tiles[4][i].occupied = true;
-        }
-
-        // ліва стіна дальньої будівлі від входу
-        for (int i = 4; i <= 14; i++) {
-            secondPlatz.tiles[i][6].occupied = true;
-        }
-
-        // ліва стіна ближньої будівлі від входу
-        for (int i = 15; i <= 22; i++) {
-            secondPlatz.tiles[i][7].occupied = true;
-        }
-        }
-
-        secondPlatz.tiles[22][19].occupied = false;
-        secondPlatz.tiles[22][19].action = () -> {
-            kmz.X=27;
-            kmz.Y=3;
-            loadLevel(kmz);
-        };
-
-        kmz.tiles[27][2].action = () -> {
-            secondPlatz.X = 22;
-            secondPlatz.Y = 18;
-            loadLevel(secondPlatz);
-        };
 
         // перший поверх
         // ліва і права стіна від зеленого виходу
@@ -552,26 +625,6 @@ public class LevelManager {
             for (int j = 18; j <= 19; j++)
                 kmz.tiles[i][j].occupied = true;
         }
-    }
 
-    void loadLevel(Level level){
-        levelScreen.canResize = false;
-        levelScreen = new LevelScreen(game, level, player);
-        game.setScreen(levelScreen);
-        levelScreen.canResize = true;
-    }
-
-    void loadFight(Fight fight){
-        levelScreen.canResize = false;
-        Screen fightScreen = new FightScreen(game, fight);
-        game.setScreen(fightScreen);
-        levelScreen.canResize = true;
-    }
-
-    public Level getInitialLevel() {
-        return initial;
-    }
-    public Player getPlayer() {
-        return player;
-    }
+    } //Method end
 }
