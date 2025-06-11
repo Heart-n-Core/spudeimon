@@ -527,7 +527,31 @@ public class LevelManager {
             for (int j = 1; j <= 3; j++)
                 firstBuildFloor2.tiles[i][j].occupied = true;
 
+        for (int i = 5; i <= 34; i++) {
+            if (i == 27)
+                continue;
+            kmz.tiles[i][2].occupied = true;
+        }
 
+        for (int i = 0; i <= 2; i++) {
+            kmz.tiles[34][i].occupied = true;
+            kmz.tiles[5][i].occupied = true;
+        }
+
+        for (int i = 0; i <= 13; i++) {
+            kmz.tiles[0][i].occupied = true;
+            kmz.tiles[39][i].occupied = true;
+        }
+
+        for (int i = 28; i <=33; i++) {
+            for (int j = 6; j <= 11; j++)
+                kmz.tiles[i][j].occupied = true;
+        }
+
+        for (int i = 5; i <= 35; i++) {
+            for (int j = 18; j <= 19; j++)
+                kmz.tiles[i][j].occupied = true;
+        }
     }
 
     void loadLevel(Level level){
