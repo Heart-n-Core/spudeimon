@@ -137,8 +137,10 @@ public class FightScreen implements Screen {
                 blockAction(validateMessage(finalMove.messages[1])?perLineDelay:1, () -> {
                     if (validateMessage(finalMove.messages[2]))displayString = finalMove.messages[2];
                     blockAction(validateMessage(finalMove.messages[2])?perLineDelay:1, () -> {
-                        if (validateMessage(finalMove.messages[3]))displayString = finalMove.messages[3];
-                        blockAction(validateMessage(finalMove.messages[3])?perLineDelay:1, () -> {
+//                        if (validateMessage(finalMove.messages[3]))displayString = finalMove.messages[3];
+//                        blockAction(validateMessage(finalMove.messages[3])?perLineDelay:1, () -> {
+                        if (fighter.nextMove==4&&currentSelectedMoveIndex!=3){String power="ефективна"; float coof = Types.attackEfficiency(fighter.type, opponent.type); if (coof==0.5f)power="малоефективна"; if (coof==2)power="суперефективна"; displayString = "Атака "+power+"!";}
+                        blockAction(fighter.nextMove==4?perLineDelay:1, () -> {
                             blockAction(finalMove.animationDelayMs, () -> {
                                 //TODO animation after messages runs here
                                 finalMove.moveAction.execute();
@@ -163,6 +165,7 @@ public class FightScreen implements Screen {
                                     }
 //                                    int perLineDelay = 750;
                                     Move finalOppMove = oppMove;
+                                    Move finalOppMove1 = oppMove;
                                     blockAction(2000, () -> {
                                         //TODO animation could begin there
                                         if (validateMessage(finalOppMove.messages[0]))displayString = finalOppMove.messages[0];
@@ -171,8 +174,11 @@ public class FightScreen implements Screen {
                                             blockAction(validateMessage(finalOppMove.messages[1])?perLineDelay:1, () -> {
                                                 if (validateMessage(finalOppMove.messages[2]))displayString = finalOppMove.messages[2];
                                                 blockAction(validateMessage(finalOppMove.messages[2])?perLineDelay:1, () -> {
-                                                    if (validateMessage(finalOppMove.messages[3]))displayString = finalOppMove.messages[3];
-                                                    blockAction(validateMessage(finalOppMove.messages[3])?perLineDelay:1, () -> {
+//                                                    if (validateMessage(finalOppMove.messages[3]))displayString = finalOppMove.messages[3];
+//                                                    blockAction(validateMessage(finalOppMove.messages[3])?perLineDelay:1, () -> {
+                                                    boolean opEf = !finalOppMove1.name.equals("Пропуск")&&!finalOppMove1.name.equals("Відпочинок");
+                                                    if (opEf){String power="ефективна"; float coof = Types.attackEfficiency(opponent.type, fighter.type); if (coof==0.5f)power="малоефективна"; if (coof==2)power="суперефективна"; displayString = "Атака "+power+"!";}
+                                                    blockAction(opEf?perLineDelay:1, () -> {
                                                         blockAction(finalOppMove.animationDelayMs, () -> {
                                                             //TODO animation after messages runs here
                                                             finalOppMove.moveAction.execute();

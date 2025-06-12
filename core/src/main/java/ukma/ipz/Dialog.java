@@ -81,7 +81,13 @@ static Sprite boxSprite;
         boxSprite.setSize(relX, relY);
         boxSprite.setPosition(camX-(float) relX /2, camY-(float) relY /2);
         boxSprite.draw(batch);
-        font.getData().setScale(0.015f);
+        float scale = 0.025f;
+        switch (relX){
+            case 8: scale = 0.013f; break;
+            case 11: scale = 0.015f; break;
+        }
+//        font.getData().setScale(0.015f);
+        font.getData().setScale(scale);
         font.setColor(Color.BLACK);
         font.draw(batch, currentLine, camX- (float) relX /2.45f, camY- (float)relY/3.75f);
 

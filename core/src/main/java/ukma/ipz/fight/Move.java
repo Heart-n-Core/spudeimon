@@ -8,7 +8,7 @@ public class Move {
     String description="";
     int OPCost;
 //    List<String> messages = new ArrayList<>();
-    String[]messages = new String[4];
+    String[]messages = new String[3];
     int animationDelayMs =1;
 
     static void dealDamage(float moveCoof, Fighter fighter) {
@@ -37,7 +37,7 @@ public class Move {
                 Move sqlInjection = new Move(fighter, "SQL ін'єкція", 1);
                 sqlInjection.description="Швидка і підступна атака, що\r\nзавдає невеликої, але гаранто-\r\nваної шкоди, обходячи базові\r\nзахисні механізми супротивника.\r\n1 ОП";
 //                sqlInjection.messages.add("S");sqlInjection.messages.add("Q");sqlInjection.messages.add("L");
-                sqlInjection.messages = new String[]{"S","Q","L",null};
+                sqlInjection.messages = new String[]{"S","Q","L"};
                 sqlInjection.moveAction = () -> {
 //                    dealDamage(litleDamage, fighter);
                     fighter.enemy.hp-= (int) (0.75*fighter.enemy.atck);
@@ -61,12 +61,13 @@ public class Move {
             case FHN:{
                 Move ryth = new Move(fighter, "Риторичне питання", 2);
                 ryth.description = "Атака, що завдає\r\nмінімальної шкоди, але\r\nзмушує опонента\r\nсумніватися у своїх\r\nсилах, тимчасово\r\nзнижуючи його/її показник\r\nатаки на 25%\r\n2 ОП";
+                ryth.moveAction = () -> {};
                 Move deco = new Move(fighter, "Деконструкція", 3);
                 deco.description = "Гуманітарій розбирає\r\nаргументи супротивника на\r\nчастини, завдаючи\r\nсередньої шкоди та\r\nзнімаючи з нього всі\r\nпозитивні ефекти.\r\n3 ОП";
-
+                deco.moveAction = () -> {};
                 Move cult = new Move(fighter, "Культурний reset", 5);
                 cult.description = "Потужна атака, що\r\nзмінює сам «наратив»\r\nбитви. Завдає великої\r\nшкоди і робить опонента\r\nвразливим до атак будь-якого\r\nтипу на наступні два ходи\r\n(отримує на 20% більше шкоди).\r\n5 ОП";
-
+                cult.moveAction = () -> {};
                 typeMoves[0]=ryth;typeMoves[1]=deco;typeMoves[2]=cult;
                 break;
             }
