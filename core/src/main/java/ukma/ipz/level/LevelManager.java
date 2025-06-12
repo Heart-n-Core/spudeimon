@@ -75,9 +75,9 @@ public class LevelManager {
             game.level++;
             initial.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
         };
-        Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\"+beatriceTexture), Types.FI,1, initialFightAction, initialFightWinAction);
 
         Dialog statDial  = new Dialog(dialogIntro, () -> {
+            Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\"+beatriceTexture), Types.FI,1, initialFightAction, initialFightWinAction);
             System.out.println("Dialog end");
             loadFight(initialFight);
         });
@@ -162,7 +162,9 @@ public class LevelManager {
             Action winAction = () -> {
                 game.level+=2;
                 removeDialB1BlockCorridor.execute();
-                firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
+//                firstBuildFloor2.dialog = new Dialog(new String[]{"Ти підкорив логіку нулів та одиниць, структуру, що не має почуттів.\r\nАле хто пише код, і для кого?\r\nНайскладніший алгоритм — це людська душа.\r\nШукай справжні відповіді у Гуманітаріїв...", "...",game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
+                firstBuildFloor2.dialog = new Dialog(new String[]{"Ти підкорив логіку нулів та одиниць, структуру, що не має почуттів.\r\nАле хто пише код, і для кого?\r\nНайскладніший алгоритм — це людська душа.\r\nШукай справжні відповіді у Гуманітаріїв..."}, () -> {levelScreen.blockAction(500, ()->{firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+
             };
             Fight boss1Fight = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФІ", new Texture("isometric\\npc\\boss1.png"), Types.FI, 2, afterAction, winAction);
             firstBuildFloor2.dialog = new Dialog(lines, () -> {
@@ -174,7 +176,7 @@ public class LevelManager {
         LevelTexture lemons = new LevelTexture("lemons.png", 15, 12);
         firstPlatz.otherTextures.add(lemons);
         firstPlatz.tiles[13][12].action = () -> {
-            firstPlatz.dialog = new Dialog(new String[]{"О ні, це жі та самі лимони!", "Треба накивати звідси п'ятами до 3 корпусу, доки по них не прибув власник!"}, () -> {levelScreen.externalDirection=Direction.LEFT;});
+            firstPlatz.dialog = new Dialog(new String[]{"О ні, це ж ті самі лимони!", "Треба накивати звідси п'ятами до 3 корпусу, доки по них не прибув власник!"}, () -> {levelScreen.externalDirection=Direction.LEFT;});
         };
         Action removeLemons = () -> {firstPlatz.otherTextures.remove(lemons); firstPlatz.tiles[13][12].action = null;};
         generateStaticNPC(firstPlatz, new LevelTexture("firstPlatzMem.png", 6, 8),new String[]{"Пощастило ж тобі записатися на мемологічні студії.\r\nЯкби ж я тільки не зловив бан на САЗі за ддос((("}, () -> {});
@@ -192,6 +194,31 @@ public class LevelManager {
             loadLevel(firstPlatz);
         };
         thirdBuild.tiles[14][16].action = thirdBToFirstPlatz;thirdBuild.tiles[14][15].action = thirdBToFirstPlatz;
+        LevelTexture cig = new LevelTexture("cig.png", 16, 2);
+        thirdBuild.otherTextures.add(cig);
+        thirdBuild.tiles[16][2].interaction = ()->{
+            thirdBuild.dialog = new Dialog(new String[]{game.playerName+" отримує рівень від філіжанки кави,\r\nале миттєво втрачає його через пачку дзиґарів!"}, ()->{thirdBuild.tiles[14][16].action=null; thirdBuild.otherTextures.remove(cig);});
+        };
+
+        LevelTexture boss2 = new LevelTexture("boss2.png", 18, 28);
+        thirdBuild.otherTextures.add(boss2);
+        thirdBuild.tiles[18][28].occupied=true;
+        thirdBuild.tiles[18][28].interaction = () -> {
+            Action afterAction = () -> {
+                thirdBuild.X = 18;
+                thirdBuild.Y = 27;
+                loadLevel(thirdBuild);
+            };
+            Action winAction = () -> {
+                game.level+=3;
+                removeLemons.execute();
+                thirdBuild.dialog = new Dialog(new String[]{"Ти осягнув глибину наративів та ідей.\r\nТа чи варті вони чогось, якщо не змінюють світ?\r\nСлово без дії — лише вітер.\r\nСоціологи знають, як ідеї стають рухами..."}, () -> {levelScreen.blockAction(500, ()->{thirdBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Fight fight2 = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФГН", new Texture("isometric\\npc\\boss2.png"), Types.FHN, 1, afterAction, winAction);
+            thirdBuild.dialog = new Dialog(new String[]{"Страх. Біль. Самотність.\r\nЦе три кити, на яких тримається людське розуміння.\r\nТи думаєш, що знання можна отримати з книг?\r\n - Ні. По-справжньому зрозуміти іншу людину можна лише через біль.", "Час отримати це пізнання!"}, ()->{
+            loadFight(fight2);
+            });
+        };
 
         Action secondPlatzToFirstPlatz = () -> {
             firstPlatz.X=31;

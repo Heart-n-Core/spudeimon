@@ -10,6 +10,10 @@ public class Player {
     boolean directedRight = true;
     Direction direction;
 
+    Sprite lvlBar;
+    Sprite n1, n2, n3;
+    Texture[] numbers = new Texture[10];
+
     private final String path = "isometric\\hero\\";
 
     Player(){
@@ -26,6 +30,15 @@ public class Player {
         sideW = new Texture(path+"sideW.png");
         up = new Texture(path+"up.png");
         upW = new Texture(path+"upW.png");
+
+        lvlBar = new Sprite(new Texture("isometric\\other\\lvlBar.png"));
+
+        for (int i = 0; i < numbers.length; i++){
+            numbers[i] = new Texture("isometric\\other\\numbers\\"+i + ".png");
+        }
+        n1 = new Sprite(numbers[0]);n2 = new Sprite(numbers[0]);n3 = new Sprite(numbers[0]);
+        lvlBar.setSize(1, 1f);
+        lvlBar.setPosition(0, 0);
     }
 
     void move(Direction direction){

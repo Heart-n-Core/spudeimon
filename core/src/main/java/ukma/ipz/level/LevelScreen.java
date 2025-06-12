@@ -25,6 +25,8 @@ public class LevelScreen implements Screen {
     static BitmapFont font  = new BitmapFont();
 
 
+
+
     public LevelScreen(final GameEntry game, Level level, Player player) {
         this.game = game;
         this.level = level;
@@ -108,6 +110,10 @@ public class LevelScreen implements Screen {
                 noClip = !noClip;
                 blockAction(100);
             }
+            if (Gdx.input.isKeyPressed(Input.Keys.F5)) {
+                game.level+=1;
+                blockAction(1000);
+            }
         }
     }
 
@@ -136,6 +142,7 @@ public class LevelScreen implements Screen {
         stringBuilder.append("Player  X:"+level.X+" Y:"+level.Y+"\n");
 //        stringBuilder.append("Player current texture: "+player.sprite.getTexture().toString()+"\n");
         stringBuilder.append("Camera X:"+game.cam.position.x+" Y:"+game.cam.position.y+"\n");
+        stringBuilder.append("Player level: "+game.level+"\n");
         stringBuilder.append("noClip "+(noClip?"ENABLED":"DISABLED")+"\n");
         telemetry = stringBuilder.toString();
 
@@ -267,6 +274,18 @@ public class LevelScreen implements Screen {
         if (displayTelemetry){
             font.draw(game.batch, telemetry, game.cam.position.x- (float) level.scaleX /2, game.cam.position.y+ (float) level.scaleY /2-0.5f);
         }
+
+        float lvlScaleCoof = level.scaleX*0.075f;
+        player.lvlBar.setSize(lvlScaleCoof, lvlScaleCoof);
+        float camCordx = game.cam.position.x- (float) level.scaleX /2;
+        float camCordy = game.cam.position.y- (float) level.scaleY /2;
+        player.lvlBar.setPosition(camCordx, camCordy );
+        player.lvlBar.draw(game.batch);
+        float XNumShift = level.scaleX*0.01f;
+        player.n1.setSize(3*XNumShift, 3*XNumShift);player.n2.setSize(3*XNumShift, 3*XNumShift);player.n3.setSize(3*XNumShift, 3*XNumShift);
+        player.n1.setPosition(8*XNumShift+camCordx, camCordy);player.n2.setPosition(11*XNumShift+camCordx, camCordy);player.n3.setPosition(14*XNumShift+camCordx, camCordy);
+        player.n1.setTexture(player.numbers[game.level/100]);player.n2.setTexture(player.numbers[(game.level/10)%10]);player.n3.setTexture(player.numbers[game.level%10]);
+        player.n1.draw(game.batch);player.n2.draw(game.batch);player.n3.draw(game.batch);
         if (dialogNow){
             level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), level.scaleX, level.scaleY, game.cam.position.x, game.cam.position.y);
 //            level.dialog.render(game.batch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 8, 5, game.cam.position.x, game.cam.position.y);

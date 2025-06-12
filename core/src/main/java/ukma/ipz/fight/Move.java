@@ -2,6 +2,8 @@ package ukma.ipz.fight;
 
 import ukma.ipz.Action;
 
+import java.util.ArrayList;
+
 public class Move {
     Fighter fighter;
     String name;
@@ -61,13 +63,28 @@ public class Move {
             case FHN:{
                 Move ryth = new Move(fighter, "Риторичне питання", 2);
                 ryth.description = "Атака, що завдає\r\nмінімальної шкоди, але\r\nзмушує опонента\r\nсумніватися у своїх\r\nсилах, тимчасово\r\nзнижуючи його/її показник\r\nатаки на 25%\r\n2 ОП";
-                ryth.moveAction = () -> {};
+                ryth.moveAction = () -> {
+                    dealDamage(litleDamage, fighter);
+                    fighter.enemy.atck*=0.75f;
+                    fighter.enemy.effects.add(new StatusEffect(3, ()->{}, ()->{fighter.enemy.atck*=1.33f;}));
+                };
                 Move deco = new Move(fighter, "Деконструкція", 3);
                 deco.description = "Гуманітарій розбирає\r\nаргументи супротивника на\r\nчастини, завдаючи\r\nсередньої шкоди та\r\nзнімаючи з нього всі\r\nпозитивні ефекти.\r\n3 ОП";
-                deco.moveAction = () -> {};
+                deco.moveAction = () -> {
+                    dealDamage(mediumDamage, fighter);
+                    ArrayList<StatusEffect> toRemove = new ArrayList<>();
+                    for (StatusEffect ef :fighter.enemy.effects ){
+                        if (ef.good)toRemove.add(ef);
+                    }
+                    fighter.enemy.effects.removeAll(toRemove);
+                };
                 Move cult = new Move(fighter, "Культурний reset", 5);
                 cult.description = "Потужна атака, що\r\nзмінює сам «наратив»\r\nбитви. Завдає великої\r\nшкоди і робить опонента\r\nвразливим до атак будь-якого\r\nтипу на наступні два ходи\r\n(отримує на 20% більше шкоди).\r\n5 ОП";
-                cult.moveAction = () -> {};
+                cult.moveAction = () -> {
+                    dealDamage(bigDamage, fighter);
+                    fighter.atck*=1.2f;
+                    fighter.effects.add(new StatusEffect(2, () -> {}, () -> {fighter.atck*=0.83f;}));
+                };
                 typeMoves[0]=ryth;typeMoves[1]=deco;typeMoves[2]=cult;
                 break;
             }
