@@ -1004,8 +1004,32 @@ public class LevelManager {
         for (int i = 11; i <= 20; i+=3) {
             biblio.tiles[i][3].occupied = true;
             biblio.tiles[i][7].occupied = true;
-
         }
+
+        for (int i = 0; i <= 9; i++) fido.tiles[0][i].occupied = true;
+        for (int i = 0; i <= 6; i++) {
+            fido.tiles[3][i].occupied = true;
+            fido.tiles[4][i].occupied = true;
+        }
+        for (int i = 0; i <= 14; i++) {
+            fido.tiles[i][9].occupied = true;
+            fido.tiles[i][0].occupied = true;
+        }
+        for (int i = 0; i <= 9; i++) fido.tiles[14][i].occupied = true;
+
+        fido.tiles[5][1].occupied = true;
+        fido.tiles[5][2].occupied = true;
+
+        fido.tiles[12][5].occupied = true;
+        fido.tiles[12][3].occupied = true;
+        fido.tiles[10][2].occupied = true;
+        fido.tiles[8][2].occupied = true;
+        fido.tiles[6][3].occupied = true;
+        fido.tiles[6][5].occupied = true;
+        fido.tiles[8][6].occupied = true;
+        fido.tiles[10][6].occupied = true;
+
+
 
     } //Method end
 }
