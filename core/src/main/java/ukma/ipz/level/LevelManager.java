@@ -681,5 +681,61 @@ public class LevelManager {
 
         //@TODO Ivan's edits
         firstPlatz.tiles[18][9].occupied = true;
+
+        for (int i = 8; i <= 14; i++) {
+            thirdBuild.tiles[i][14].occupied = true;
+            thirdBuild.tiles[i][18].occupied = true;
+        }
+
+        thirdBuild.tiles[8][13].occupied = true;
+        thirdBuild.tiles[8][12].occupied = true;
+
+        for (int i = 8; i <= 11; i++) {
+            thirdBuild.tiles[9][i].occupied = true;
+        }
+
+        for (int i = 5; i <= 8; i++) {
+            thirdBuild.tiles[10][i].occupied = true;
+        }
+
+        for (int i = 10; i <= 21; i++) {
+            thirdBuild.tiles[i][5].occupied = true;
+            thirdBuild.tiles[i][0].occupied = true;
+        }
+
+        thirdBuild.tiles[11][4].occupied = true;
+        thirdBuild.tiles[12][4].occupied = true;
+
+        for (int i = 0; i <= 6; i++) {
+            thirdBuild.tiles[21][i].occupied = true;
+        }
+
+        thirdBuild.tiles[8][2].occupied = true;
+        thirdBuild.tiles[7][2].occupied = true;
+        thirdBuild.tiles[7][3].occupied = true;
+        thirdBuild.tiles[7][4].occupied = true;
+
+        for (int i = 4; i <= 7; i++) {
+            thirdBuild.tiles[6][i].occupied = true;
+        }
+
+        for (int i = 7; i <= 10; i++) {
+            thirdBuild.tiles[5][i].occupied = true;
+        }
+
+        for (int i = 10; i <= 13; i++) {
+            thirdBuild.tiles[4][i].occupied = true;
+        }
+
+        for (int i = 0; i <= 4; i++) {
+            thirdBuild.tiles[3][13].occupied = true;
+            thirdBuild.tiles[3][19].occupied = true;
+        }
+
+        for (int i = 13; i <= 19; i++) {
+            thirdBuild.tiles[0][i].occupied = true;
+        }
+
+
     } //Method end
 }
