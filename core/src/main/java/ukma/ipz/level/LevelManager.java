@@ -956,5 +956,56 @@ public class LevelManager {
 
         thirdBuild.tiles[20][27].occupied = true;
 
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 2; j++)
+                biblio.tiles[i][j].occupied = true;
+        }
+
+        biblio.tiles[8][2].occupied = true;
+        biblio.tiles[9][2].occupied = true;
+        for (int i = 8; i <= 24; i++) {
+            biblio.tiles[i][1].occupied = true;
+            biblio.tiles[i][10].occupied = true;
+        }
+        for (int i = 2; i <= 8; i++) biblio.tiles[0][i].occupied = true;
+        biblio.tiles[1][8].occupied = true;
+        biblio.tiles[2][8].occupied = true;
+        for (int i = 2; i <= 10; i++) biblio.tiles[24][i].occupied = true;
+
+        for (int i = 8; i <= 9; i++) {
+            for (int j = 7; j <= 10; j++)
+                biblio.tiles[i][j].occupied = true;
+        }
+
+        for (int i = 2; i <= 8; i++) biblio.tiles[i][9].occupied = true;
+
+        for (int i = 2; i <= 6; i++) {
+            for (int j = 7; j <= 9; j++)
+                biblio.tiles[i][j].occupied = true;
+        }
+
+        biblio.tiles[1][6].occupied = true;
+        biblio.tiles[1][3].occupied = true;
+
+        biblio.tiles[10][9].occupied = true;
+        biblio.tiles[11][9].occupied = true;
+        biblio.tiles[12][9].occupied = true;
+        biblio.tiles[13][9].occupied = true;
+        biblio.tiles[15][9].occupied = true;
+        biblio.tiles[16][9].occupied = true;
+        biblio.tiles[17][9].occupied = true;
+        biblio.tiles[18][9].occupied = true;
+        biblio.tiles[20][9].occupied = true;
+        biblio.tiles[21][9].occupied = true;
+        biblio.tiles[22][9].occupied = true;
+        biblio.tiles[23][9].occupied = true;
+
+
+        for (int i = 11; i <= 20; i+=3) {
+            biblio.tiles[i][3].occupied = true;
+            biblio.tiles[i][7].occupied = true;
+
+        }
+
     } //Method end
 }
