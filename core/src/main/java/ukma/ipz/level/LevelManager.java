@@ -9,6 +9,7 @@ import ukma.ipz.Direction;
 import ukma.ipz.GameEntry;
 import ukma.ipz.fight.Fight;
 import ukma.ipz.fight.FightScreen;
+import ukma.ipz.fight.RefreshScreen;
 import ukma.ipz.fight.Types;
 
 public class LevelManager {
@@ -23,6 +24,7 @@ public class LevelManager {
     Level firstBuildFloor1;
     Level firstBuildFloor2;
     Level thirdBuild;
+    Level biblio;
 
 
     Level kmz;
@@ -37,7 +39,11 @@ public class LevelManager {
         this.game = game;
         loadFirst();
         levelScreen = new LevelScreen(game, initial, player);
-        loadLevel(initial);
+        if (!game.chooseType){
+            loadLevel(initial);
+        }else {
+            game.setScreen(new RefreshScreen(game, ()->{loadLevel(initial);}));
+        }
     }
 
     private void loadFirst() {
@@ -48,6 +54,8 @@ public class LevelManager {
         firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 11, 7);
         kmz = new Level(new Texture("isometric\\levels\\kmz.png"), 40, 20, 3, 5);
         thirdBuild = new Level(new Texture("isometric\\levels\\3build.png"), 22, 33, 3, 5, 11, 7);
+        biblio = new Level(new Texture("isometric\\levels\\biblio.png"), 25, 11, 3, 5, 11, 7);
+
         setupTiles();
 
         String beatriceTexture = "intro_girl.png";
@@ -78,7 +86,7 @@ public class LevelManager {
         };
 
         Dialog statDial = new Dialog(dialogIntro, () -> {
-            Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\" + beatriceTexture), Types.FI, 1, initialFightAction, initialFightWinAction);
+            Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\" + beatriceTexture), game.type, 1, initialFightAction, initialFightWinAction);
             System.out.println("Dialog end");
             loadFight(initialFight);
         });
@@ -237,7 +245,7 @@ public class LevelManager {
             fight3 = new Fight(bossFight3Bgr, game.type, game.level, "Бос ФПВН", boss3Texture, Types.FPVN, 7, afterAction, winAction);
         }
         Action bossFight3 = () -> {
-            firstPlatz.dialog = new Dialog(new String[]{"Так-с... Заявка на викрадення майна, форма 37-Б.\r\nЗаповнена не за зразком.\r\nПункт 4.2, відсутній підпис свідка.\r\nЗгідно з постановою від третього квазі-юніуса, це є підставою для відмови.", "...", "О, це Ви! Правду кажуть, злочинці таки повертаються на місце злочину.\r\nХіба що Ви зможете довести власну непричетність, хехе!"}, ()->{
+            firstPlatz.dialog = new Dialog(new String[]{"Так-с... Заявка на викрадення лимонів, форма 37-Б.\r\nЗаповнена не за зразком.\r\nПункт 4.2, відсутній підпис свідка.\r\nЗгідно з постановою від третього квазі-юніуса, це є підставою для відмови.", "...", "О, це Ви! Правду кажуть, злочинці таки повертаються на місце злочину.\r\nХіба що Ви зможете довести власну непричетність, хехе!"}, ()->{
                 fight3.playerLvl=game.level;
                 loadFight(fight3);
             });
@@ -248,6 +256,26 @@ public class LevelManager {
             firstPlatz.tiles[17][12].action = bossFight3;
         };
 
+        firstPlatz.tiles[17][17].occupied = false;
+        Action biblioToFirstPl = ()->{
+            firstPlatz.X=17;
+            firstPlatz.Y=16;
+            loadLevel(firstPlatz);
+        };
+        biblio.tiles[3][0].action = biblioToFirstPl;biblio.tiles[4][0].action = biblioToFirstPl;biblio.tiles[5][0].action = biblioToFirstPl;biblio.tiles[6][0].action = biblioToFirstPl;biblio.tiles[7][0].action = biblioToFirstPl;
+        firstPlatz.tiles[17][17].action = ()->{
+            biblio.X=5;
+            biblio.Y=1;
+            loadLevel(biblio);
+        };
+
+        //Biblio
+        biblio.tiles[23][5].occupied = true;
+        biblio.tiles[23][5].interaction = () -> {
+            biblio.dialog = new Dialog(new String[]{"Час реффрешнутися!"}, ()->{
+                loadRefresh(()->{biblio.X=22; biblio.Y=5; loadLevel(biblio);});
+            });
+        };
 
         //Third building
         firstPlatz.tiles[6][10].action = () -> {
@@ -306,6 +334,22 @@ public class LevelManager {
             loadLevel(kmz);
         };
 
+        //KMZ
+        LevelTexture beatFinal = new LevelTexture(beatriceTexture, 27, 8);
+        kmz.otherTextures.add(beatFinal);
+        kmz.tiles[27][8].occupied=true;
+        kmz.tiles[27][8].interaction = () -> {
+            Action afterAction = () -> {kmz.X=27; kmz.Y=7;loadLevel(kmz);};
+            Action winAction = () -> {
+                //TODO game end
+            };
+            Fight finalFight = new Fight(new Texture("isometric\\fights\\finalLoc.png"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\" + beatriceTexture), game.type, (game.level-1)>0? game.level-1 : 1, afterAction, winAction);
+
+
+            kmz.dialog = new Dialog(new String[]{"Ти зробив це. Ти пройшов вісім шляхів і побачив вісім істин.\r\nКожен із опонентів вважав свою дисципліну єдиною істиною.\r\nКожен з них бачив лише одну грань діаманта.", "Я розпочала твій шлях. Тепер я — твій останній поріг.\r\nТи думав, що шукаєш якусь таємницю, прихований артефакт?\r\n- Ні. Справжня Синтеза — це не фахове знання, яке можна отримати.\r\nЦе здатність до творення нового УНІВЕРСАЛЬНОГО знання. І це виклик, який треба витримати.", "Я — Беатріче. Колись я пізнала ту ж універсальність, що й ти.\r\nЯ — єдність усіх дисциплін. Ти переміг їхні окремі тіні, що звуться дисциплінами.\r\nТепер подивись в обличчя самому Світлу! Бийся зі мною!", "Покажи мені не силу однієї дисципліни, а мудрість оперувати ними усіма!\r\nДоведи, що ти не просто ще один відокремлений промінь,\r\nа той, хто здатен увібрати в себе все світло!"}, ()->{
+                loadFight(finalFight);
+            });
+        };
         kmz.tiles[27][2].action = () -> {
             secondPlatz.X = 22;
             secondPlatz.Y = 18;
@@ -333,6 +377,12 @@ public class LevelManager {
         levelScreen.canResize = false;
         Screen fightScreen = new FightScreen(game, fight);
         game.setScreen(fightScreen);
+        levelScreen.canResize = true;
+    }
+    void loadRefresh(Action afterAction){
+        levelScreen.canResize = false;
+        Screen refresh = new RefreshScreen(game, afterAction);
+        game.setScreen(refresh);
         levelScreen.canResize = true;
     }
 

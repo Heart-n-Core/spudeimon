@@ -17,6 +17,8 @@ public class GameEntry extends Game {
 
     public OrthographicCamera cam;
 
+    public boolean chooseType = true;
+
     public int level = 1;
     public String playerName = "Гравець";
     public Types type = Types.FI;

@@ -144,6 +144,7 @@ public class LevelScreen implements Screen {
         stringBuilder.append("Camera X:"+game.cam.position.x+" Y:"+game.cam.position.y+"\n");
         stringBuilder.append("Player level: "+game.level+"\n");
         stringBuilder.append("noClip "+(noClip?"ENABLED":"DISABLED")+"\n");
+        stringBuilder.append("Type "+game.type+"\n");
         telemetry = stringBuilder.toString();
 
 
