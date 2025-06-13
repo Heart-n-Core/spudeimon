@@ -22,4 +22,12 @@ public LevelTexture(String textureName, int x, int y) {
     sprite.setSize(1, 1);
     sprite.setPosition(x, y);
 }
+public LevelTexture(Texture texture, int x, int y) {
+    this.texture = texture;
+    this.x = x;
+    this.y = y;
+    sprite = new Sprite(texture);
+    sprite.setSize(1, 1);
+    sprite.setPosition(x, y);
+}
 }

@@ -17,7 +17,7 @@ public class Fight {
     Sprite player = new Sprite(new Texture("isometric\\fights\\mc_batle.png"));
     Sprite opponent;
 
-    Types playerType;
+    public Types playerType;
     public int playerLvl;
 
     @Deprecated

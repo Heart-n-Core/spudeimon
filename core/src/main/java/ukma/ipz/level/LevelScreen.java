@@ -264,12 +264,12 @@ public class LevelScreen implements Screen {
         game.batch.begin();
 
         level.sprite.draw(game.batch);
-        player.sprite.draw(game.batch);
         for (LevelTexture levelTexture : level.otherTextures){
             if (levelTexture!=null&&levelTexture.sprite!=null){
                 levelTexture.sprite.draw(game.batch);
             }
         }
+        player.sprite.draw(game.batch);
 
         font.getData().setScale((float) level.scaleY /Gdx.graphics.getHeight());
         if (displayTelemetry){
