@@ -40,44 +40,45 @@ public class LevelManager {
         loadLevel(initial);
     }
 
-    private void loadFirst(){
+    private void loadFirst() {
         initial = new Level(new Texture("isometric\\levels\\1_entrance.jpg"), 10, 7, 1, 0, 8, 5);
-        firstPlatz = new Level(new Texture("isometric\\levels\\first_platz.png"),33, 21, 3, 5);
-        secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"),35, 26, 3, 5);
+        firstPlatz = new Level(new Texture("isometric\\levels\\first_platz.png"), 33, 21, 3, 5);
+        secondPlatz = new Level(new Texture("isometric\\levels\\second_platz.png"), 35, 26, 3, 5);
         firstBuildFloor1 = new Level(new Texture("isometric\\levels\\firstBuildFloor1.png"), 33, 17, 1, 1, 11, 7);
         firstBuildFloor2 = new Level(new Texture("isometric\\levels\\firstBuildFloor2.png"), 25, 14, 1, 1, 11, 7);
         kmz = new Level(new Texture("isometric\\levels\\kmz.png"), 40, 20, 3, 5);
-        thirdBuild = new Level(new Texture("isometric\\levels\\3build.png"),22, 33,  3, 5, 11, 7);
+        thirdBuild = new Level(new Texture("isometric\\levels\\3build.png"), 22, 33, 3, 5, 11, 7);
         setupTiles();
 
         String beatriceTexture = "intro_girl.png";
 
         Action fEtofC = () -> {
-            firstBuildFloor1.X=26;
-            firstBuildFloor1.Y=1;
+            firstBuildFloor1.X = 26;
+            firstBuildFloor1.Y = 1;
 //            loadLevel(firstPlatz);
             loadLevel(firstBuildFloor1);
         };
-        initial.tiles[4][4].action=fEtofC;
-        initial.tiles[5][4].action=fEtofC;
-        initial.tiles[5][3].occupied=true;
-        initial.otherTextures.add(new LevelTexture(beatriceTexture, 5, 3 ));
+        initial.tiles[4][4].action = fEtofC;
+        initial.tiles[5][4].action = fEtofC;
+        initial.tiles[5][3].occupied = true;
+        initial.otherTextures.add(new LevelTexture(beatriceTexture, 5, 3));
         String[] dialogIntro = {"Привіт, рефрешику :)", "Мене звати Беатріче.\nА ти, либонь, та сама \"темна конячка\",\nпро яку всі так балакають.", "Тут розпочнеться твій шлях спудея.\nПопереду буде багато викликів.\nХоча, якщо ти тут, то наснаги тобі не бракує.", "Але годі балакати.\nШлях до істини лежить у дебатах!\nОтож en garde, monsieur!"};
         Action initialFightAction = () -> {
-            initial.X=5;
-            initial.Y=2;
+            initial.X = 5;
+            initial.Y = 2;
             loadLevel(initial);
         };
         Action initialFightWinAction = () -> {
             initial.otherTextures.clear();
             initial.tiles[5][3].interaction = null;
-            initial.tiles[5][3].occupied=false;
+            initial.tiles[5][3].occupied = false;
             game.level++;
-            initial.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
+            initial.dialog = new Dialog(new String[]{game.playerName + " підвищився до " + game.level + " рівня!"}, () -> {
+            });
         };
 
-        Dialog statDial  = new Dialog(dialogIntro, () -> {
-            Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\"+beatriceTexture), Types.FI,1, initialFightAction, initialFightWinAction);
+        Dialog statDial = new Dialog(dialogIntro, () -> {
+            Fight initialFight = new Fight(new Texture("isometric\\fights\\initialFight.jpg"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\" + beatriceTexture), Types.FI, 1, initialFightAction, initialFightWinAction);
             System.out.println("Dialog end");
             loadFight(initialFight);
         });
@@ -87,30 +88,34 @@ public class LevelManager {
         };
         initial.tiles[5][3].interaction = dial1;
         Action firstBtoInitial = () -> {
-            initial.X=4;
-            initial.Y=3;
+            initial.X = 4;
+            initial.Y = 3;
             loadLevel(initial);
         };
-        firstBuildFloor1.tiles[26][0].action=firstBtoInitial;firstBuildFloor1.tiles[25][0].action=firstBtoInitial;firstBuildFloor1.tiles[24][0].action=firstBtoInitial;firstBuildFloor1.tiles[27][0].action=firstBtoInitial;firstBuildFloor1.tiles[28][0].action=firstBtoInitial;
+        firstBuildFloor1.tiles[26][0].action = firstBtoInitial;
+        firstBuildFloor1.tiles[25][0].action = firstBtoInitial;
+        firstBuildFloor1.tiles[24][0].action = firstBtoInitial;
+        firstBuildFloor1.tiles[27][0].action = firstBtoInitial;
+        firstBuildFloor1.tiles[28][0].action = firstBtoInitial;
 
         LevelTexture firstBcorridorBlocking = new LevelTexture("firstBcorridorBlocking.png", 4, 5);
         firstBuildFloor1.otherTextures.add(firstBcorridorBlocking);
-        firstBuildFloor1.tiles[4][5].occupied=true;
+        firstBuildFloor1.tiles[4][5].occupied = true;
 //        firstBuildFloor1.tiles[3][4].occupied=true;
         Action dialB1BlockCorridor = () -> {
             String[] lines = new String[]{"О, привіт, друже, а ти заходив на кафедру інформатики на 2 поверсі?\r\nТам роздають автомати з ІНФОПОШУКУ!!!\r\nНу ж бо, поспіши, доки маєш таку змогу!"};
             firstBuildFloor1.dialog = new Dialog(lines, () -> {
-                levelScreen.externalDirection= Direction.UP;
+                levelScreen.externalDirection = Direction.UP;
             });
 //            statDial.regenerate(lines, () -> {levelScreen.externalDirection= Direction.UP;});
 //            firstBuildFloor1.dialog = statDial;
         };
         firstBuildFloor1.tiles[4][5].interaction = dialB1BlockCorridor;
-        firstBuildFloor1.tiles[3][5].action=dialB1BlockCorridor;
+        firstBuildFloor1.tiles[3][5].action = dialB1BlockCorridor;
         Action removeDialB1BlockCorridor = () -> {
-            firstBuildFloor1.tiles[4][5].occupied=false;
+            firstBuildFloor1.tiles[4][5].occupied = false;
             firstBuildFloor1.otherTextures.remove(firstBcorridorBlocking);
-            firstBuildFloor1.tiles[3][5].action=null;
+            firstBuildFloor1.tiles[3][5].action = null;
             firstBuildFloor1.tiles[4][5].interaction = null;
 //            firstBuildFloor1.tiles[3][4].occupied=false;
 
@@ -118,11 +123,12 @@ public class LevelManager {
 
 
         Action firstBtoFirstPlatz = () -> {
-            firstPlatz.X=9;
-            firstPlatz.Y=5;
+            firstPlatz.X = 9;
+            firstPlatz.Y = 5;
             loadLevel(firstPlatz);
         };
-        firstBuildFloor1.tiles[3][0].action=firstBtoFirstPlatz;firstBuildFloor1.tiles[4][0].action=firstBtoFirstPlatz;
+        firstBuildFloor1.tiles[3][0].action = firstBtoFirstPlatz;
+        firstBuildFloor1.tiles[4][0].action = firstBtoFirstPlatz;
         firstPlatz.tiles[9][4].action = () -> {
             firstBuildFloor1.X = 4;
             firstBuildFloor1.Y = 1;
@@ -133,37 +139,52 @@ public class LevelManager {
             firstBuildFloor2.Y = 8;
             loadLevel(firstBuildFloor2);
         };
-        firstBuildFloor1.tiles[29][12].action = firstBfirstFtosndF;firstBuildFloor1.tiles[30][12].action = firstBfirstFtosndF;
+        firstBuildFloor1.tiles[29][12].action = firstBfirstFtosndF;
+        firstBuildFloor1.tiles[30][12].action = firstBfirstFtosndF;
 
         //Second floor
-        Action firstBsndFtofirstF=() -> {
+        Action firstBsndFtofirstF = () -> {
             firstBuildFloor1.X = 29;
             firstBuildFloor1.Y = 11;
-            loadLevel(firstBuildFloor1);};
-        firstBuildFloor2.tiles[14][9].action = firstBsndFtofirstF;firstBuildFloor2.tiles[15][9].action = firstBsndFtofirstF;
+            loadLevel(firstBuildFloor1);
+        };
+        firstBuildFloor2.tiles[14][9].action = firstBsndFtofirstF;
+        firstBuildFloor2.tiles[15][9].action = firstBsndFtofirstF;
 
         //content
-        generateStaticNPC(firstBuildFloor2, new LevelTexture("1Bhint1.png", 17, 4), new String[]{"Якщо ти зазнав поразки, завжди можна спробувати стати сильнішим\r\nу боротьбі з опонентом, якого здолав у дебатах раніше.", "Просто не  здавайся ;)"}, () -> {});
+        generateStaticNPC(firstBuildFloor2, new LevelTexture("1Bhint1.png", 17, 4), new String[]{"Якщо ти зазнав поразки, завжди можна спробувати стати сильнішим\r\nу боротьбі з опонентом, якого здолав у дебатах раніше.", "Просто не  здавайся ;)"}, () -> {
+        });
         LevelTexture coffee1 = new LevelTexture("coffee1.png", 19, 3);
         firstBuildFloor2.otherTextures.add(coffee1);
-        firstBuildFloor2.tiles[19][3].interaction = () -> {game.level+=1; firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" знайшов філіжанку кави та підвищився до "+game.level+" рівня!"}, () -> {firstBuildFloor2.tiles[19][3].interaction=null; firstBuildFloor2.otherTextures.remove(coffee1);});};
+        firstBuildFloor2.tiles[19][3].interaction = () -> {
+            game.level += 1;
+            firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName + " знайшов філіжанку кави та підвищився до " + game.level + " рівня!"}, () -> {
+                firstBuildFloor2.tiles[19][3].interaction = null;
+                firstBuildFloor2.otherTextures.remove(coffee1);
+            });
+        };
 
         //Boss
         LevelTexture boss1 = new LevelTexture("boss1.png", 4, 10);
         firstBuildFloor2.otherTextures.add(boss1);
-        firstBuildFloor2.tiles[4][10].occupied=true;
+        firstBuildFloor2.tiles[4][10].occupied = true;
         firstBuildFloor2.tiles[4][10].interaction = () -> {
-            String[] lines  = {"Що вершить долю людства у цьому світі?\r\nЯкась незрима істота чи закон, подібно до Длані Господньої,\r\nщо ширяє над світом?", "Принаймні істинно те, що людина не має навіть своєї волі,\r\nне кажучи вже про автомат з інфопошуку.\r\nПодивимося, як першокурсники готуються до заліку!"};
+            String[] lines = {"Що вершить долю людства у цьому світі?\r\nЯкась незрима істота чи закон, подібно до Длані Господньої,\r\nщо ширяє над світом?", "Принаймні істинно те, що людина не має навіть своєї волі,\r\nне кажучи вже про автомат з інфопошуку.\r\nПодивимося, як першокурсники готуються до заліку!"};
             Action afterAction = () -> {
                 firstBuildFloor2.X = 4;
                 firstBuildFloor2.Y = 9;
                 loadLevel(firstBuildFloor2);
             };
             Action winAction = () -> {
-                game.level+=2;
+                game.level += 2;
                 removeDialB1BlockCorridor.execute();
 //                firstBuildFloor2.dialog = new Dialog(new String[]{"Ти підкорив логіку нулів та одиниць, структуру, що не має почуттів.\r\nАле хто пише код, і для кого?\r\nНайскладніший алгоритм — це людська душа.\r\nШукай справжні відповіді у Гуманітаріїв...", "...",game.playerName+" підвищився до "+game.level+" рівня!"}, () -> {});
-                firstBuildFloor2.dialog = new Dialog(new String[]{"Ти підкорив логіку нулів та одиниць, структуру, що не має почуттів.\r\nАле хто пише код, і для кого?\r\nНайскладніший алгоритм — це людська душа.\r\nШукай справжні відповіді у Гуманітаріїв..."}, () -> {levelScreen.blockAction(500, ()->{firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+                firstBuildFloor2.dialog = new Dialog(new String[]{"Ти підкорив логіку нулів та одиниць, структуру, що не має почуттів.\r\nАле хто пише код, і для кого?\r\nНайскладніший алгоритм — це людська душа.\r\nШукай справжні відповіді у Гуманітаріїв..."}, () -> {
+                    levelScreen.blockAction(500, () -> {
+                        firstBuildFloor2.dialog = new Dialog(new String[]{game.playerName + " підвищився до " + game.level + " рівня!"}, () -> {
+                        });
+                    });
+                });
 
             };
             Fight boss1Fight = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФІ", new Texture("isometric\\npc\\boss1.png"), Types.FI, 2, afterAction, winAction);
@@ -176,10 +197,56 @@ public class LevelManager {
         LevelTexture lemons = new LevelTexture("lemons.png", 15, 12);
         firstPlatz.otherTextures.add(lemons);
         firstPlatz.tiles[13][12].action = () -> {
-            firstPlatz.dialog = new Dialog(new String[]{"О ні, це ж ті самі лимони!", "Треба накивати звідси п'ятами до 3 корпусу, доки по них не прибув власник!"}, () -> {levelScreen.externalDirection=Direction.LEFT;});
+            firstPlatz.dialog = new Dialog(new String[]{"О ні, це ж ті самі лимони!", "Треба накивати звідси п'ятами до 3 корпусу, доки по них не прибув власник!"}, () -> {
+                levelScreen.externalDirection = Direction.LEFT;
+            });
         };
-        Action removeLemons = () -> {firstPlatz.otherTextures.remove(lemons); firstPlatz.tiles[13][12].action = null;};
         generateStaticNPC(firstPlatz, new LevelTexture("firstPlatzMem.png", 6, 8),new String[]{"Пощастило ж тобі записатися на мемологічні студії.\r\nЯкби ж я тільки не зловив бан на САЗі за ддос((("}, () -> {});
+
+
+        LevelTexture boss3LT = new LevelTexture("boss3.png", 17, 13);
+        LevelTexture boss3LTRE = new LevelTexture("boss3.png", 16, 16);
+        Fight fight3;
+        {
+            Texture bossFight3Bgr = new Texture("isometric\\fights\\boss3Loc.png");
+            Texture boss3Texture = new Texture("isometric\\npc\\boss3.png");
+            Action afterAction = () -> {
+                firstPlatz.X = 17;
+                firstPlatz.Y = 12;
+                loadLevel(firstPlatz);
+            };
+            Action reward = ()->{
+                game.level+=3;
+                firstPlatz.dialog = new Dialog(new String[]{"Визнаю, звинувачення були хибними.","Ви вивчили правила гри та ціну порядку.\r\nТа чиїм коштом їх написано?\r\nЗа кожним параграфом закону стоїть економічний інтерес.\r\nЗапитайте в Економістів, хто насправді платить за все..."}, () -> {levelScreen.blockAction(500, ()->{firstPlatz.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Action winAction = () -> {
+                firstPlatz.tiles[17][12].action = null;
+                firstPlatz.otherTextures.remove(boss3LT);
+                firstPlatz.otherTextures.add(boss3LTRE);
+//                boss3LT.x=16;boss3LT.y=16;
+//                firstPlatz.otherTextures.add(boss3LT);
+                firstPlatz.tiles[16][16].occupied = true;
+                firstPlatz.tiles[16][16].interaction = () -> {
+                    firstPlatz.dialog = new Dialog(new String[]{"Так-с... Заявка на викрадення лимонів, форма 37-Б.\r\nЗаповнена не за зразком.\r\nПункт 4.2, відсутній підпис свідка.\r\nЗгідно з постановою від третього квазі-юніуса, це є підставою для відмови.", "...", "О, це Ви! Правду кажуть, злочинці таки повертаються на місце злочину.\r\nХіба що Ви зможете довести власну непричетність, хехе!"}, ()->{
+                        Fight fight3Re = new Fight(bossFight3Bgr, game.type, game.level, "Бос ФПВН", boss3Texture, Types.FPVN, 7, ()->{firstPlatz.X=16;firstPlatz.Y=15;loadLevel(firstPlatz);}, reward);
+                        loadFight(fight3Re);
+                    });
+                };
+                reward.execute();
+            };
+            fight3 = new Fight(bossFight3Bgr, game.type, game.level, "Бос ФПВН", boss3Texture, Types.FPVN, 7, afterAction, winAction);
+        }
+        Action bossFight3 = () -> {
+            firstPlatz.dialog = new Dialog(new String[]{"Так-с... Заявка на викрадення майна, форма 37-Б.\r\nЗаповнена не за зразком.\r\nПункт 4.2, відсутній підпис свідка.\r\nЗгідно з постановою від третього квазі-юніуса, це є підставою для відмови.", "...", "О, це Ви! Правду кажуть, злочинці таки повертаються на місце злочину.\r\nХіба що Ви зможете довести власну непричетність, хехе!"}, ()->{
+                fight3.playerLvl=game.level;
+                loadFight(fight3);
+            });
+        };
+        Action removeLemons = () -> {firstPlatz.otherTextures.remove(lemons); firstPlatz.tiles[13][12].action = null;
+//            firstPlatz.tiles[18][12].interaction = bossFight3;
+            firstPlatz.otherTextures.add(boss3LT);
+            firstPlatz.tiles[17][12].action = bossFight3;
+        };
 
 
         //Third building
@@ -212,10 +279,13 @@ public class LevelManager {
             Action winAction = () -> {
                 game.level+=3;
                 removeLemons.execute();
-                thirdBuild.dialog = new Dialog(new String[]{"Ти осягнув глибину наративів та ідей.\r\nТа чи варті вони чогось, якщо не змінюють світ?\r\nСлово без дії — лише вітер.\r\nСоціологи знають, як ідеї стають рухами..."}, () -> {levelScreen.blockAction(500, ()->{thirdBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+                thirdBuild.dialog = new Dialog(new String[]{"Ти осягнув глибину наративів та ідей.\r\nТа чи варті вони чогось, якщо не змінюють світ?\r\nСлово без дії — лише вітер.\r\n" +
+//                    "Соціологи знають, як ідеї стають рухами..."
+                    "Правники знають, як втілити ідею в законі ..."
+                }, () -> {levelScreen.blockAction(500, ()->{thirdBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
             };
             Fight fight2 = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФГН", new Texture("isometric\\npc\\boss2.png"), Types.FHN, 1, afterAction, winAction);
-            thirdBuild.dialog = new Dialog(new String[]{"Страх. Біль. Самотність.\r\nЦе три кити, на яких тримається людське розуміння.\r\nТи думаєш, що знання можна отримати з книг?\r\n - Ні. По-справжньому зрозуміти іншу людину можна лише через біль.", "Час отримати це пізнання!"}, ()->{
+            thirdBuild.dialog = new Dialog(new String[]{"Страх. Біль. Самотність.\r\nЦе три кити, на яких тримається людське розуміння.\r\nТи думаєш, що знання можна отримати з книг?\r\n - Ні. По-справжньому зрозуміти іншу людину можна лише через біль.", "Я - Маленія, стилос ФГНу.\r\nЧас тобі отримати це пізнання!"}, ()->{
             loadFight(fight2);
             });
         };

@@ -18,7 +18,7 @@ public class Fight {
     Sprite opponent;
 
     Types playerType;
-    int playerLvl;
+    public int playerLvl;
 
     @Deprecated
     int playerHp;

@@ -145,6 +145,7 @@ public class FightScreen implements Screen {
                                 //TODO animation after messages runs here
                                 finalMove.moveAction.execute();
                                 fighter.processEffects();
+                                opponent.processEffects();
                                 fighter.OP++;
 
                                 if (opponent.hp<=0){
@@ -183,6 +184,7 @@ public class FightScreen implements Screen {
                                                             //TODO animation after messages runs here
                                                             finalOppMove.moveAction.execute();
                                                             opponent.OP++;
+                                                            fighter.processEffects();
                                                             opponent.processEffects();
                                                             if (player.hp<=0){
                                                                 state = States.RESULT;

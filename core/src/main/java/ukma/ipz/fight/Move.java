@@ -88,6 +88,20 @@ public class Move {
                 typeMoves[0]=ryth;typeMoves[1]=deco;typeMoves[2]=cult;
                 break;
             }
+            case FPVN:{
+                Move obj = new Move(fighter, "Objection!", 1);
+                obj.description="Швидка реакція,\r\nщо блокує наступну атаку\r\nсупротивника, якщо\r\nїї вартість становить 1 ОП.\r\nЯкщо атака сильніша,\r\nзменшує її шкоду на 50%.\r\n1 ОП";
+                obj.moveAction = ()->{dealDamage(litleDamage, fighter);};
+                Move jud = new Move(fighter, "Судовий позов", 3);
+                jud.description="Атака середньої сили,\r\nщо змушує супротивника\r\n'витрачатись на адвокатів'.\r\nЗавдає шкоди і\r\nдодатково віднімає\r\n1 ОП у опонента.\r\n3 ОП";
+                jud.messages = new String[]{"Ціль втрачає 1 ОП!",null,null};
+                jud.moveAction=()->{dealDamage(mediumDamage, fighter);if (fighter.enemy.OP>0)fighter.enemy.OP--;};
+                Move verd = new Move(fighter, "Остаточний вердикт",7);
+                verd.description="Нищівна атака, від\r\nякої неможливо ухилитися\r\nчи заблокувати (при\r\nумові що у опонента\r\nменше ніж 50% ОП).\r\nСимволізує остаточне рішення \r\nсуду, що не підлягає оскарженню.\r\n7 ОП";
+                verd.moveAction = ()->{dealDamage(bigDamage, fighter);};
+                typeMoves[0]=obj;typeMoves[1]=jud;typeMoves[2]=verd;
+                break;
+            }
         }
         Move rest = new Move(fighter, "Відпочинок", 0);
         rest.description="Пропустити хід,\r\nщоб відновити 2 ОП";

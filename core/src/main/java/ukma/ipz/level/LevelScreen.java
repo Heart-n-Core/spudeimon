@@ -219,7 +219,7 @@ public class LevelScreen implements Screen {
         actions.add(camMove);
     }
 
-    private void interact(){
+    void interact(){
         int newX=0;
         int newY=0;
         switch (player.direction){
@@ -250,7 +250,7 @@ public class LevelScreen implements Screen {
             dialogNow=true;
         }
     }
-    private void executeInteraction(Action interaction){
+    void executeInteraction(Action interaction){
         if (interaction!=null)interaction.execute();
     }
 
