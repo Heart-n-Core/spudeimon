@@ -780,6 +780,10 @@ public class LevelManager {
             thirdBuild.tiles[21][i].occupied = true;
         }
 
+        for (int i = 7; i <= 12; i++) {
+            thirdBuild.tiles[i][1].occupied = true;
+        }
+
         thirdBuild.tiles[8][2].occupied = true;
         thirdBuild.tiles[7][2].occupied = true;
         thirdBuild.tiles[7][3].occupied = true;
@@ -798,14 +802,80 @@ public class LevelManager {
         }
 
         for (int i = 0; i <= 4; i++) {
-            thirdBuild.tiles[3][13].occupied = true;
-            thirdBuild.tiles[3][19].occupied = true;
+            thirdBuild.tiles[i][13].occupied = true;
+            thirdBuild.tiles[i][19].occupied = true;
         }
 
         for (int i = 13; i <= 19; i++) {
             thirdBuild.tiles[0][i].occupied = true;
         }
 
+        thirdBuild.tiles[4][21].occupied = true;
+        thirdBuild.tiles[4][20].occupied = true;
+        thirdBuild.tiles[5][22].occupied = true;
+        thirdBuild.tiles[5][23].occupied = true;
+        thirdBuild.tiles[5][24].occupied = true;
+
+        thirdBuild.tiles[6][25].occupied = true;
+        thirdBuild.tiles[6][26].occupied = true;
+        thirdBuild.tiles[6][27].occupied = true;
+
+        thirdBuild.tiles[7][27].occupied = true;
+        thirdBuild.tiles[7][28].occupied = true;
+        thirdBuild.tiles[7][29].occupied = true;
+        thirdBuild.tiles[8][30].occupied = true;
+
+        for (int i = 8; i <= 12; i++) {
+            thirdBuild.tiles[i][31].occupied = true;
+        }
+
+        for (int i = 13; i <= 21; i++) {
+            thirdBuild.tiles[i][32].occupied = true;
+            thirdBuild.tiles[i][26].occupied = true;
+        }
+
+        for (int i = 26; i <= 32; i++) {
+            thirdBuild.tiles[21][i].occupied = true;
+        }
+
+        thirdBuild.tiles[12][27].occupied = true;
+        thirdBuild.tiles[11][27].occupied = true;
+        thirdBuild.tiles[10][26].occupied = true;
+        thirdBuild.tiles[10][25].occupied = true;
+        thirdBuild.tiles[10][24].occupied = true;
+
+        thirdBuild.tiles[9][23].occupied = true;
+        thirdBuild.tiles[9][22].occupied = true;
+        thirdBuild.tiles[9][21].occupied = true;
+
+        thirdBuild.tiles[8][20].occupied = true;
+        thirdBuild.tiles[8][19].occupied = true;
+
+        // utils
+        thirdBuild.tiles[7][5].occupied = true;
+
+        for (int i = 1; i <= 4; i++) {
+            thirdBuild.tiles[20][i].occupied = true;
+        }
+
+        for (int i = 14; i <= 18; i++) {
+            thirdBuild.tiles[i][1].occupied = true;
+        }
+
+        thirdBuild.tiles[2][15].occupied = true;
+        thirdBuild.tiles[3][15].occupied = true;
+        thirdBuild.tiles[3][16].occupied = true;
+        thirdBuild.tiles[2][16].occupied = true;
+
+        thirdBuild.tiles[8][22].occupied = true;
+
+        thirdBuild.tiles[7][26].occupied = true;
+
+        thirdBuild.tiles[17][29].occupied = true;
+
+        thirdBuild.tiles[20][31].occupied = true;
+
+        thirdBuild.tiles[20][27].occupied = true;
 
     } //Method end
 }
