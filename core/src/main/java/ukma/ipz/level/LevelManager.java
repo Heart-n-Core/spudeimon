@@ -26,6 +26,7 @@ public class LevelManager {
     Level thirdBuild;
     Level biblio;
 
+    Level fido;
 
     Level kmz;
 
@@ -55,10 +56,21 @@ public class LevelManager {
         kmz = new Level(new Texture("isometric\\levels\\kmz.png"), 40, 20, 3, 5);
         thirdBuild = new Level(new Texture("isometric\\levels\\3build.png"), 22, 33, 3, 5, 11, 7);
         biblio = new Level(new Texture("isometric\\levels\\biblio.png"), 25, 11, 3, 5, 11, 7);
+        fido = new Level(new Texture("isometric\\levels\\fido.png"), 15, 11, 3, 5, 11, 7);
+
 
         setupTiles();
 
         String beatriceTexture = "intro_girl.png";
+        Texture hint = new Texture("isometric\\npc\\hint.png");
+        //Hints
+        generateHint(firstPlatz, new LevelTexture(hint, 7, 10), false, false, 90);
+        generateHint(firstPlatz, new LevelTexture(hint, 9, 5), false, true, 0);
+        generateHint(firstPlatz, new LevelTexture(hint, 17, 16), false, false, 0);
+        generateHint(firstPlatz, new LevelTexture(hint, 31, 9), false, false, 270);
+        generateHint(secondPlatz, new LevelTexture(hint, 13, 18), false, false, 0);
+        generateHint(secondPlatz, new LevelTexture(hint, 22, 18), false, false, 0);
+        generateHint(secondPlatz, new LevelTexture(hint, 23, 8), false, true, 0);
 
         Action fEtofC = () -> {
             firstBuildFloor1.X = 26;
@@ -247,6 +259,7 @@ public class LevelManager {
         Action bossFight3 = () -> {
             firstPlatz.dialog = new Dialog(new String[]{"Так-с... Заявка на викрадення лимонів, форма 37-Б.\r\nЗаповнена не за зразком.\r\nПункт 4.2, відсутній підпис свідка.\r\nЗгідно з постановою від третього квазі-юніуса, це є підставою для відмови.", "...", "О, це Ви! Правду кажуть, злочинці таки повертаються на місце злочину.\r\nХіба що Ви зможете довести власну непричетність, хехе!"}, ()->{
                 fight3.playerLvl=game.level;
+                fight3.playerType=game.type;
                 loadFight(fight3);
             });
         };
@@ -271,8 +284,9 @@ public class LevelManager {
 
         //Biblio
         biblio.tiles[23][5].occupied = true;
+        biblio.otherTextures.add(new LevelTexture("refresher.png", 23, 5));
         biblio.tiles[23][5].interaction = () -> {
-            biblio.dialog = new Dialog(new String[]{"Час реффрешнутися!"}, ()->{
+            biblio.dialog = new Dialog(new String[]{"Час рефрешнутися!"}, ()->{
                 loadRefresh(()->{biblio.X=22; biblio.Y=5; loadLevel(biblio);});
             });
         };
@@ -318,13 +332,21 @@ public class LevelManager {
             });
         };
 
+        //Second platz
         Action secondPlatzToFirstPlatz = () -> {
             firstPlatz.X=31;
             firstPlatz.Y=9;
             loadLevel(firstPlatz);
         };
         secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
+        secondPlatz.tiles[13][19].occupied=false;
+        secondPlatz.tiles[13][19].action = ()->{fido.X=2;fido.Y=2;loadLevel(fido);};
+        {Action fidoToSecondPlatz = () -> {secondPlatz.X=18; secondPlatz.Y=18; loadLevel(secondPlatz);}; fido.tiles[1][1].action=fidoToSecondPlatz; fido.tiles[2][1].action=fidoToSecondPlatz;}
 
+        //Fido hub
+        fido.tiles[9][4].occupied=true;
+        LevelTexture floppy = new LevelTexture("floppy.png", 9, 4);
+        fido.otherTextures.add(floppy);
 
 
         secondPlatz.tiles[22][19].occupied = false;
@@ -363,6 +385,13 @@ public class LevelManager {
         level.tiles[levelTexture.x][levelTexture.y].interaction = () -> {
             level.dialog = new Dialog(lines, action);
         };
+        level.otherTextures.add(levelTexture);
+    }
+    void generateHint(Level level, LevelTexture levelTexture, boolean flipX, boolean flipY, int rotateDeg) {
+        levelTexture.sprite.flip(flipX, flipY);
+        levelTexture.sprite.setOriginCenter();
+        levelTexture.sprite.setRotation(rotateDeg);
+        levelTexture.sprite.setAlpha(0.5f);
         level.otherTextures.add(levelTexture);
     }
 

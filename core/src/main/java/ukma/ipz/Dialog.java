@@ -38,7 +38,7 @@ static Sprite boxSprite;
 //        font = generator.generateFont(parameter);
         //        parameter.magFilter = Texture.TextureFilter.Linear;
 //        parameter.minFilter = Texture.TextureFilter.Linear;
-        System.out.println("Dialog class loaded at: " + System.currentTimeMillis());
+//        System.out.println("Dialog class loaded at: " + System.currentTimeMillis());
 
         boxSprite = new Sprite(new Texture("isometric\\dialog_bar.png"));
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + //temp solution

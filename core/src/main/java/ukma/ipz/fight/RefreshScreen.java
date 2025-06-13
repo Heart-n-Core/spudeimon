@@ -215,7 +215,7 @@ public class RefreshScreen implements Screen {
         int perLineDelay = 750;
         Move finalMove = move;
 
-        blockAction(100, () -> {
+        blockAction(300, () -> {
             //TODO animation could begin there
             if (validateMessage(finalMove.messages[0])) displayString = finalMove.messages[0];
             blockAction(validateMessage(finalMove.messages[0]) ? perLineDelay : 1, () -> {
