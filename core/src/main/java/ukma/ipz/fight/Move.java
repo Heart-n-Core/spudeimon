@@ -104,16 +104,16 @@ public class Move {
             }
             case FSNST: {
                 Move poll = new Move(fighter, "CоцІаЛьНе ОпитУвАннЯ", 1);
-                poll.description = "Завдає дуже малої шкоди, \r\nале дозволяє дізнатися,\r\n яку атаку супротивник планує використати в наступному ході.";
+                poll.description = "Завдає дуже малої шкоди, але\nдозволяє дізнатися,яку\nатаку супротивник планує\nвикористати в наступному ході.\n1 ОП";
                 poll.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move meeting = new Move(fighter, "Скликаю міт", 3);
-                meeting.description = "Соціолог мобілізує громадську думку.\r\n Несподівана атака, що завдає середньої шкоди \r\nі тимчасово знижує захист супротивника на 50%.\r\n";
+                meeting.description = "Соціолог мобілізує громадську\nдумку.Несподівана атака,\nщо завдає середньої шкоди\r\nі тимчасово знижує захист\nсупротивника на 50%.\n3 ОП";
                 meeting.moveAction = ()->{dealDamage(mediumDamage, fighter); fighter.atck*=0.5f;};
                 meeting.messages = new String[]{"Ціль втратила половину сили атаки",null,null};
 
                 Move socialRevolution = new Move(fighter, "РЕВОЛЮЦІЯ!", 5);
-                socialRevolution.description = "Масштабна атака, що змінює правила гри.\r\n Завдає великої шкоди всім на полі бою \r\n(включно з собою, але 50%) і знімає всі статусні ефекти.\n";
+                socialRevolution.description = "Масштабна атака, що змінює\nправила гри.Завдає\nвеликої шкоди всім на полі\nбою (включно з собою, але 50%)\nі знімає всі статусні\nефекти.\n5 ОП";
                 socialRevolution.moveAction = ()->{dealDamage(bigDamage, fighter);};
 
                 typeMoves[0]=poll;typeMoves[1]=meeting;typeMoves[2]=socialRevolution;
@@ -121,75 +121,75 @@ public class Move {
             }
             case FPRN: {
                 Move takeGuess = new Move(fighter, "Висуваю гіпотезу", 1);
-                takeGuess.description = "Базова атака з невеликою шкодою, \r\n але має підвищений шанс на критичний удар, \nякщо \"гіпотеза виявиться правильною\".\n";
+                takeGuess.description = "Базова атака з невеликою\nшкодою, але має підвищений\nшанс на критичний удар,\nякщо \"гіпотеза виявиться\nправильною\".\n1 ОП";
                 takeGuess.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move expertOpinion = new Move(fighter, "Експертна оцінка", 2);
-                expertOpinion.description = "Атака, що завдає середньої шкоди та анулює \r\n будь-які спроби опонента підвищити свої характеристики \r\nабо захист(атаки що також дають баф, \r\nне дають баф проте все ще роблять шкоду).\n";
+                expertOpinion.description = "Атака завдає середньої шкоди та\nанулює будь-які спроби опонента\nпідвищити свої характеристики \nабо захист(атаки що також \nдають баф, не дають баф проте \nвсе ще роблять шкоду).\n2 ОП";
                 expertOpinion.moveAction = ()->{dealDamage(mediumDamage, fighter);};
 
                 Move natureGift = new Move(fighter, "Закон природи", 5);
-                natureGift.description = "Атака, що базується на непорушних законах Всесвіту. \r\n Завдає величезної шкоди, ігноруючи захист супротивника.\n";
+                natureGift.description = "Атака, що базується на \nнепорушних законах Всесвіту.\r\nЗавдає величезної шкоди,\nігноруючи захист супротивника.\n5 ОП";
                 natureGift.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=takeGuess;typeMoves[1]=expertOpinion;typeMoves[2]=natureGift;
                 break;
             }
             case FOZ: {
                 Move diagnosis =new Move(fighter, "Діагноз", 2);
-                diagnosis.description = "Завдає незначної шкоди, \r\nале виявляє вразливість опонента, \r\nроблячи наступну атаку гарантованим критом.\n";
+                diagnosis.description = "Завдає незначної шкоди, але\nвиявляє вразливість опонента, \r\nроблячи наступну атаку\nгарантованим критом.\n2 ОП";
                 diagnosis.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move injection = new Move(fighter, "Термінове втручання", 3);
-                injection.description="Гравець може обрати \r\n— або завдати опоненту середньої шкоди, \r\nабо відновити собі невелику кількість здоров'я.\n";
+                injection.description="Гравець може обрати — або\nзавдати опоненту середньої\nшкоди, або відновити собі\nневелику кількість здоров'я.\n3 ОП";
                 injection.moveAction = ()->{dealDamage(mediumDamage, fighter);};
 
                 Move recover = new Move(fighter, "Курс реабілітації", 5);
-                recover.description= "Найсильніша атака, що завдає середньої шкоди одразу\r\n, але накладає на супротивника ефект \"виснаження\",\r\n який віднімає здоров'я протягом трьох наступних ходів.\n";
+                recover.description= "Найсильніша атака, що завдає\nсередньої шкоди одразу,\nале накладає на супротивника\nефект \"виснаження\",\r\nякий віднімає здоров'я протягом\nтрьох наступних ходів.\n5 ОП";
                 recover.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=diagnosis; typeMoves[1]=injection;typeMoves[2]=recover;
                 break;
             }
             case KMBS: {
                 Move present = new Move(fighter, "Презентація", 1);
-                present.description = "Швидка атака з малою шкодою, \r\nщо має 30% шанс \"зачарувати\" опонента, \r\n змусивши його пропустити хід через захоплення ідеєю.\n";
+                present.description = "Швидка атака з малою шкодою, \r\nщо має 30% шанс \"зачарувати\"\nопонента, змусивши його\nпропустити хід через \nзахоплення ідеєю.\n1 ОП";
                 present.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move takeover = new Move(fighter, "Вороже поглинання", 2);
-                takeover.description="Атака малої сили, що не лише завдає шкоди, \r\n а й \"поглинає\" частину ресурсів опонента, \r\n забираючи у ворога  і відновлюючи собі 1 ОП.\n";
+                takeover.description="Атака малої сили, що не лише\nзавдає шкоди, а й \"поглинає\"\nчастину ресурсів опонента,\nзабираючи у ворога і\nвідновлюючи собі 1 ОП.\n2 ОП";
                 takeover.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move unicorn = new Move(fighter, "Запуск єдинорога", 6);
-                unicorn.description="Ризикована, але надзвичайно потужна атака.\r\n Вимагає всіх ресурсів, завдає колосальної шкоди, \r\n представляючи успішний вихід на ринок.\n";
+                unicorn.description="Ризикована, але надзвичайно \nпотужна атака. Вимагає всіх \nресурсів,завдає колосальної\nшкоди, представляючи успішний\nвихід на ринок.\n6 ОП";
                 unicorn.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=present; typeMoves[1]=takeover; typeMoves[2]=unicorn;
                 break;
             }
             case FEN: {
                 Move question = new Move(fighter, "Риторичне питання", 2);
-                question.description="Атака, що завдає мінімальної шкоди, \r\n але змушує супротивника сумніватися у своїх силах, \r\n тимчасово знижуючи його показник атаки на 25%.\n";
+                question.description="Атака, що завдає мінімальної\nшкоди, але змушує супротивника\nсумніватися у своїх силах, \r\nтимчасово знижуючи його\nпоказник атаки на 25%.\n2 ОП";
                 question.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move deconstruction = new Move(fighter, "Деконструкція", 3);
-                deconstruction.description = "Гуманітарій розбирає аргументи супротивника на частини \r\n, завдаючи середньої шкоди та знімаючи з нього всі позитивні ефекти.\n";
+                deconstruction.description = "Гуманітарій розбирає аргументи\nсупротивника на частини,\nзавдаючи середньої шкоди\nта знімаючи з нього\nвсі позитивні ефекти.\n3 ОП";
                 deconstruction.moveAction = ()->{dealDamage(mediumDamage, fighter);};
 
                 Move reset = new Move(fighter, "Культурний ресет", 5);
-                reset.description = "Потужна атака, що змінює сам «наратив» битви. \r\n Завдає великої шкоди і робить опонента вразливим \r\n до атак будь-якого типу на наступні два ходи\r\n(отримує на 20% більше шкоди).\n";
+                reset.description = "Потужна атака, що змінює сам\n«наратив» битви. Завдає великої\nшкоди і робить опонента\nвразливим до атак будь-якого\nтипу на наступні два ходи\r\n(отримує на 20% більше шкоди).\n5 ОП";
                 reset.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=question; typeMoves[1]=deconstruction;typeMoves[2]=reset;
                 break;
             }
             case OTHER: {
                 Move deadline = new Move(fighter, "Дедлайн горить", 2);
-                deadline.description = "Студент у паніці робить незграбну, але потужну атаку. \r\n Атака завдає значно більшої шкоди, ніж аналоги за це ж ОП \r\n, але має 35% шанс \"забагувати\" і не спрацювати.\n";
+                deadline.description = "Студент у паніці робить\nнезграбну, але потужну\nатаку. Атака завдає значно\nбільшої шкоди, ніж\nаналоги за це ж ОП,але\nмає 35% шанс \"забагувати\" і\nне спрацювати.\n2 ОП";
                 deadline.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move work = new Move(fighter, "Паяльник в руки", 4);
-                work.description = "Пряма апаратна атака. Студент імпровізує рішення \"на колінці\", \r\nзавдаючи дуже високої шкоди. Однак він отримує невелику шкоду у відповідь \r\n(віддача), бо \"обпікся, поки паяв\".\n";
+                work.description = "Пряма апаратна атака. Студент\nімпровізує рішення \"на колінці\",\r\nзавдаючи дуже високої шкоди.\nОднак він отримує невелику\nшкоду у відповідь(віддача),\nбо \"обпікся, поки паяв\".\n4 ОП";
                 work.moveAction = ()->{dealDamage(mediumDamage, fighter);};
 
                 Move Kursach = new Move(fighter, "Курсач «на відмінно»", 5);
-                Kursach.description = "Ультимативна атака. Студент не спить 48 годин і здає геніальний проєкт. \r\n Атака завдає руйнівної шкоди, ігноруючи будь-який захист. \r\nПісля цього ходу студент отримує статус \"Вигорів\" \r\n і змушений використати наступний хід на \"Відпочинок\".\n";
+                Kursach.description = "Ультимативна атака. Студент\nне спить 48 годин і здає\nгеніальний проєкт. Атака завдає \nруйнівної шкоди, ігноруючи\nбудь-який захист. Після\nцього ходу студент отримує\nстатус \"Вигорів\" і змушений\nвикористати наступний хід на\n\"Відпочинок\".\n5 ОП";
                 Kursach.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=deadline; typeMoves[1]=work;typeMoves[2]=Kursach;
                 break;
