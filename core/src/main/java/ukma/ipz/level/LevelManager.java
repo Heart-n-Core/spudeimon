@@ -27,6 +27,7 @@ public class LevelManager {
     Level biblio;
 
     Level fido;
+    Level fourthBuild;
 
     Level kmz;
 
@@ -57,7 +58,7 @@ public class LevelManager {
         thirdBuild = new Level(new Texture("isometric\\levels\\3build.png"), 22, 33, 3, 5, 11, 7);
         biblio = new Level(new Texture("isometric\\levels\\biblio.png"), 25, 11, 3, 5, 11, 7);
         fido = new Level(new Texture("isometric\\levels\\fido.png"), 15, 11, 3, 5, 11, 7);
-
+        fourthBuild = new Level(new Texture("isometric\\levels\\4.png"), 12, 12, 3, 5, 11, 7);
 
         setupTiles();
 
@@ -68,9 +69,10 @@ public class LevelManager {
         generateHint(firstPlatz, new LevelTexture(hint, 9, 5), false, true, 0);
         generateHint(firstPlatz, new LevelTexture(hint, 17, 16), false, false, 0);
         generateHint(firstPlatz, new LevelTexture(hint, 31, 9), false, false, 270);
-        generateHint(secondPlatz, new LevelTexture(hint, 13, 18), false, false, 0);
         generateHint(secondPlatz, new LevelTexture(hint, 22, 18), false, false, 0);
         generateHint(secondPlatz, new LevelTexture(hint, 23, 8), false, true, 0);
+
+        generateHint(secondPlatz, new LevelTexture(hint, 29, 8), false, true, 0);
 
         Action fEtofC = () -> {
             firstBuildFloor1.X = 26;
@@ -231,7 +233,7 @@ public class LevelManager {
             Texture bossFight3Bgr = new Texture("isometric\\fights\\boss3Loc.png");
             Texture boss3Texture = new Texture("isometric\\npc\\boss3.png");
             Action afterAction = () -> {
-                firstPlatz.X = 17;
+                firstPlatz.X = 16;
                 firstPlatz.Y = 12;
                 loadLevel(firstPlatz);
             };
@@ -339,14 +341,75 @@ public class LevelManager {
             loadLevel(firstPlatz);
         };
         secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
-        secondPlatz.tiles[13][19].occupied=false;
-        secondPlatz.tiles[13][19].action = ()->{fido.X=2;fido.Y=2;loadLevel(fido);};
-        {Action fidoToSecondPlatz = () -> {secondPlatz.X=18; secondPlatz.Y=18; loadLevel(secondPlatz);}; fido.tiles[1][1].action=fidoToSecondPlatz; fido.tiles[2][1].action=fidoToSecondPlatz;}
+
+        Action enableFido = ()->{generateHint(secondPlatz, new LevelTexture(hint, 13, 18), false, false, 0);
+            generateStaticNPC(secondPlatz, new LevelTexture("fidoEntr.png", 14, 18), new String[]{"В підвалі Фідо відбуваються дивні речі.\r\nНавіть ходять чутки, що вони вирішили переписати САЗ.\r\nАле ось вже тиждень ніхто звідти не виходить.","Двері відчинені, але от мені спускатися туди лячно.\r\nМожеш зазирнути досередини пересвідчитися,\r\nщо там все гаразд?"}, ()->{});
+            secondPlatz.tiles[13][19].occupied=false;
+            secondPlatz.tiles[13][19].action = ()->{fido.X=2;fido.Y=2;loadLevel(fido);};};
+
+        {Action fidoToSecondPlatz = () -> {secondPlatz.X=13; secondPlatz.Y=18; loadLevel(secondPlatz);}; fido.tiles[1][1].action=fidoToSecondPlatz; fido.tiles[2][1].action=fidoToSecondPlatz;}
+        LevelTexture janitor = new LevelTexture("janitor.png", 22, 18);
+        secondPlatz.otherTextures.add(janitor);secondPlatz.tiles[22][18].occupied=true;
+        secondPlatz.tiles[22][18].interaction = () -> {secondPlatz.dialog =new Dialog(new String[]{"Куди по щойно митій підлозі!\r\nНе пущу в КМЦ, доки підлога не висохне!"}, ()->{});};
+        Action removeJanitor = ()->{secondPlatz.otherTextures.remove(janitor); secondPlatz.tiles[22][18].occupied=false; secondPlatz.tiles[22][18].interaction=null;};
+        generateStaticNPC(secondPlatz, new LevelTexture("fenJoke.png", 30, 10), new String[]{"Натхненний цитатою кличка 'Нам не потрібні гроші... не забирайте наші гроші',\r\nБос ФЕНу розробив нову сертифікатну програму про накопичення і збереження капіталу.\r\nХіба не чудово?"},()->{} );
+        secondPlatz.tiles[29][7].occupied=false;secondPlatz.tiles[29][7].action=()->{fourthBuild.X=4; fourthBuild.Y=9; loadLevel(fourthBuild);};
+        {Action fourthBToSndP = ()->{secondPlatz.X=29; secondPlatz.Y=8; loadLevel(secondPlatz);};fourthBuild.tiles[3][10].action=fourthBToSndP;fourthBuild.tiles[4][10].action=fourthBToSndP;
+            Action afterAction = ()->{fourthBuild.X=8; fourthBuild.Y=5; loadLevel(fourthBuild);};
+            Action winAction = ()->{game.level+=3; enableFido.execute();
+                fourthBuild.dialog = new Dialog(new String[]{"Ти зрозумів невидимі потоки ресурсів, що керують світом.\r\nАле моделі лише описують їх.\r\nА хто ж створює реальну вартість з ідеї та ризику?\r\nЗа цим іди до Могилянської Бізнес-Школи..."}, () -> {levelScreen.blockAction(500, ()->{fourthBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            generateStaticNPC(fourthBuild, new LevelTexture("boss4.png",8,6),
+                new String[]{"Питають дружину: 'Де ти береш гроші?'. Вона каже: 'У тумбочці'.\r\nЇй кажуть: 'А хто кладе в тумбочку гроші?'.\r\nВона каже: 'Не знаю'. - Так де ти береш гроші?"},
+                ()->{Fight f4 = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФЕН", new Texture("isometric\\npc\\boss4.png"), Types.FEN, 11, afterAction, winAction);loadFight(f4);
+            });
+        };
+
+        Action enable6B = ()->{
+            //TODO after floppy picked
+        };
 
         //Fido hub
         fido.tiles[9][4].occupied=true;
         LevelTexture floppy = new LevelTexture("floppy.png", 9, 4);
         fido.otherTextures.add(floppy);
+        fido.tiles[9][4].interaction = ()->{fido.dialog=new Dialog(new String[]{"Гравець схвильовано бере загадкову безцінну дискету!"}, ()->{enable6B.execute();fido.tiles[9][4].occupied=false; fido.otherTextures.remove(floppy);});};
+        Fight fight5;
+        {
+            LevelTexture boss5LT = new LevelTexture("boss5.png", 5, 8);
+            Texture bossFight5Bgr = new Texture("isometric\\fights\\boss1Loc.png");
+            Texture boss5Texture = new Texture("isometric\\npc\\boss5.png");
+            fido.tiles[5][8].occupied=true;
+            fido.otherTextures.add(boss5LT);
+            Action afterAction = () -> {
+                fido.X = 4;
+                fido.Y = 7;
+                loadLevel(fido);
+            };
+            Action reward = ()->{
+                game.level+=3;
+                fido.dialog = new Dialog(new String[]{"Ти навчився будувати імперії та перетворювати мрії на гроші.\r\nАле на якому фундаменті?r\nЛюдьми керують не лише гроші.", "Віднеси цей диск до 7 корпусу.\r\nБос ФСНСТ мав розробити на основі даних з цієї БД політтехнологію,\r\nяка змінить всю спудейську спільноту..."}, () -> {levelScreen.blockAction(500, ()->{fido.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Action winAction = () -> {
+                fido.X = 5;
+                fido.tiles[5][7].action = null;
+                fido.tiles[5][8].interaction = () -> {
+                    fido.dialog = new Dialog(new String[]{"Знаєш, чому людство досі не вимерло?\r\nНе через мораль, не через закони.\r\nЧерез те, що завжди знаходились ті, хто був готовий робити важкий вибір.\r\nТі, хто розумів, що для великої мети можна пожертвувати малим.", "Мене звинувачують у радикальних методах. У цинізмі.\r\nАле порятунок має свою ціну.\r\nПорятунок у тій дискеті на пентаграмі!"}, ()->{
+                        Fight fight5Re = new Fight(bossFight5Bgr, game.type, game.level, "Бос KMBS", boss5Texture, Types.KMBS, 13, ()->{ fido.X = 5;fido.Y = 7;loadLevel(fido);}, reward);
+                        loadFight(fight5Re);
+                    });
+                };
+                reward.execute();
+            };
+            fight5 = new Fight(bossFight5Bgr, game.type, game.level, "Бос KMBS", boss5Texture, Types.KMBS, 13, afterAction, winAction);
+        }
+        fido.tiles[5][7].action= () -> {
+            fido.dialog = new Dialog(new String[]{"Знаєш, чому людство досі не вимерло?\r\nНе через мораль, не через закони.\r\nЧерез те, що завжди знаходились ті, хто був готовий робити важкий вибір.\r\nТі, хто розумів, що для великої мети можна пожертвувати малим.", "Мене звинувачують у радикальних методах. У цинізмі.\r\nАле порятунок має свою ціну.\r\nПорятунок у тій дискеті на пентаграмі!"}, ()->{
+                fight5.playerLvl=game.level;
+                fight5.playerType=game.type;
+                loadFight(fight5);
+            });
+        };
 
 
         secondPlatz.tiles[22][19].occupied = false;
