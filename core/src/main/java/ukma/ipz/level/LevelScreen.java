@@ -69,7 +69,7 @@ public class LevelScreen implements Screen {
                         if (level.dialog.afterAction!=null){level.dialog.afterAction.execute();}
                        level.dialog=null;
                    }
-                    blockAction(500);
+                    blockAction(1000);
                 }
                 return;
             }
@@ -122,7 +122,7 @@ public class LevelScreen implements Screen {
     //Debug vars
 
     boolean noClip = false;
-    boolean displayTelemetry = true;
+    boolean displayTelemetry = false;
 
     public Direction externalDirection;
     private void logic(){
@@ -238,6 +238,7 @@ public class LevelScreen implements Screen {
         blockAction(100);
         if(level.dialog!=null){
             dialogNow=true;
+//            blockAction(800);
         }
     }
 
@@ -249,6 +250,7 @@ public class LevelScreen implements Screen {
         if (action!=null&&!noClip)action.execute();
         if(level.dialog!=null){
             dialogNow=true;
+//            blockAction(800);
         }
     }
     void executeInteraction(Action interaction){

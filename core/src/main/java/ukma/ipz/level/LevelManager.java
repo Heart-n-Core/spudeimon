@@ -1,5 +1,6 @@
 package ukma.ipz.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,7 +29,9 @@ public class LevelManager {
 
     Level fido;
     Level fourthBuild;
+    Level seventhBuild;
 
+    Level eighthBuild;
     Level kmz;
 
 //    int playerLvl=1;
@@ -59,6 +62,9 @@ public class LevelManager {
         biblio = new Level(new Texture("isometric\\levels\\biblio.png"), 25, 11, 3, 5, 11, 7);
         fido = new Level(new Texture("isometric\\levels\\fido.png"), 15, 11, 3, 5, 11, 7);
         fourthBuild = new Level(new Texture("isometric\\levels\\4.png"), 12, 12, 3, 5, 11, 7);
+        seventhBuild = new Level(new Texture("isometric\\levels\\7.png"), 12, 8, 3, 5, 11, 7);
+        eighthBuild = new Level(new Texture("isometric\\levels\\8.png"), 34, 22, 3, 5, 11, 7);
+
 
         setupTiles();
 
@@ -342,8 +348,9 @@ public class LevelManager {
         };
         secondPlatz.tiles[22][7].action = secondPlatzToFirstPlatz; secondPlatz.tiles[23][7].action = secondPlatzToFirstPlatz;
 
+        Texture fidoEntr = new Texture("isometric\\npc\\fidoEntr.png");
         Action enableFido = ()->{generateHint(secondPlatz, new LevelTexture(hint, 13, 18), false, false, 0);
-            generateStaticNPC(secondPlatz, new LevelTexture("fidoEntr.png", 14, 18), new String[]{"В підвалі Фідо відбуваються дивні речі.\r\nНавіть ходять чутки, що вони вирішили переписати САЗ.\r\nАле ось вже тиждень ніхто звідти не виходить.","Двері відчинені, але от мені спускатися туди лячно.\r\nМожеш зазирнути досередини пересвідчитися,\r\nщо там все гаразд?"}, ()->{});
+            generateStaticNPC(secondPlatz, new LevelTexture(fidoEntr, 14, 18), new String[]{"В підвалі Фідо відбуваються дивні речі.\r\nНавіть ходять чутки, що вони вирішили переписати САЗ.\r\nАле ось вже тиждень ніхто звідти не виходить.","Двері відчинені, але от мені спускатися туди лячно.\r\nМожеш зазирнути досередини пересвідчитися,\r\nщо там все гаразд?"}, ()->{});
             secondPlatz.tiles[13][19].occupied=false;
             secondPlatz.tiles[13][19].action = ()->{fido.X=2;fido.Y=2;loadLevel(fido);};};
 
@@ -359,21 +366,42 @@ public class LevelManager {
             Action winAction = ()->{game.level+=3; enableFido.execute();
                 fourthBuild.dialog = new Dialog(new String[]{"Ти зрозумів невидимі потоки ресурсів, що керують світом.\r\nАле моделі лише описують їх.\r\nА хто ж створює реальну вартість з ідеї та ризику?\r\nЗа цим іди до Могилянської Бізнес-Школи..."}, () -> {levelScreen.blockAction(500, ()->{fourthBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
             };
-            generateStaticNPC(fourthBuild, new LevelTexture("boss4.png",8,6),
+            generateStaticNPC(fourthBuild, new LevelTexture("boss6.png",8,6),
                 new String[]{"Питають дружину: 'Де ти береш гроші?'. Вона каже: 'У тумбочці'.\r\nЇй кажуть: 'А хто кладе в тумбочку гроші?'.\r\nВона каже: 'Не знаю'. - Так де ти береш гроші?"},
-                ()->{Fight f4 = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФЕН", new Texture("isometric\\npc\\boss4.png"), Types.FEN, 11, afterAction, winAction);loadFight(f4);
+                ()->{Fight f4 = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФЕН", new Texture("isometric\\npc\\boss6.png"), Types.FEN, 11, afterAction, winAction);loadFight(f4);
+            });
+        };
+        Action enable7 = ()->{
+            generateHint(secondPlatz, new LevelTexture(hint, 13, 7), false, true, 0);
+            secondPlatz.tiles[13][6].occupied=false;
+            secondPlatz.tiles[13][6].action=()->{seventhBuild.X=7;seventhBuild.Y=5;loadLevel(seventhBuild);};
+        };
+        Texture boss6 = new Texture("isometric\\npc\\boss4.png");
+        Action enable6 = ()->{
+            //TODO after floppy picked
+            Action afterAction = ()->{
+                secondPlatz.X=17;
+                secondPlatz.Y=12;
+                loadLevel(secondPlatz);
+            };
+            Action winAction = ()->{
+                game.level+=3;
+                enable7.execute();
+                secondPlatz.dialog = new Dialog(new String[]{"Ти побачив, як рухаються маси, немов єдиний організм.\r\nАле на якому фундаменті?\r\nБудь-яка стратегія безсила проти фундаментального відкриття.\r\nПриродничники відкривають нові світи для людства..."}, () -> {levelScreen.blockAction(500, ()->{secondPlatz.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Fight boss6Fight = new Fight(new Texture("isometric\\fights\\boss6Loc.png"), game.type, game.level, "Бос ФСНСТ", new Texture("isometric\\npc\\boss4.png"), Types.FSNST, 16, afterAction, winAction);
+
+            generateStaticNPC(secondPlatz, new LevelTexture(boss6, 17, 13), new String[]{"Дякую, що приніс диск.\r\nТи бачиш ці правила? Ці регламенти?\r\nЦе все частина системи, яка обмежує нас.", "На цьому наша дружня розмова добігатиме кінця.\r\nАдже перше правило клубу — не говорити про ремастер САЗу.\r\nА друге правило — НІКОМУ не говорити ремастер САЗу!"}, ()->{
+                loadFight(boss6Fight);
             });
         };
 
-        Action enable6B = ()->{
-            //TODO after floppy picked
-        };
 
         //Fido hub
         fido.tiles[9][4].occupied=true;
         LevelTexture floppy = new LevelTexture("floppy.png", 9, 4);
         fido.otherTextures.add(floppy);
-        fido.tiles[9][4].interaction = ()->{fido.dialog=new Dialog(new String[]{"Гравець схвильовано бере загадкову безцінну дискету!"}, ()->{enable6B.execute();fido.tiles[9][4].occupied=false; fido.otherTextures.remove(floppy);});};
+        fido.tiles[9][4].interaction = ()->{fido.dialog=new Dialog(new String[]{"Гравець схвильовано бере загадкову безцінну дискету!"}, ()->{enable6.execute();fido.tiles[9][4].occupied=false; fido.otherTextures.remove(floppy);});};
         Fight fight5;
         {
             LevelTexture boss5LT = new LevelTexture("boss5.png", 5, 8);
@@ -388,7 +416,7 @@ public class LevelManager {
             };
             Action reward = ()->{
                 game.level+=3;
-                fido.dialog = new Dialog(new String[]{"Ти навчився будувати імперії та перетворювати мрії на гроші.\r\nАле на якому фундаменті?r\nЛюдьми керують не лише гроші.", "Віднеси цей диск до 7 корпусу.\r\nБос ФСНСТ мав розробити на основі даних з цієї БД політтехнологію,\r\nяка змінить всю спудейську спільноту..."}, () -> {levelScreen.blockAction(500, ()->{fido.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+                fido.dialog = new Dialog(new String[]{"Ти навчився будувати імперії та перетворювати мрії на гроші.\r\nАле на якому фундаменті?\nЛюдьми керують не лише гроші.", "Віднеси цей диск в центр 2 плацу.\r\nБос ФСНСТ мав розробити на основі даних з цієї БД політтехнологію,\r\nяка змінить всю спудейську спільноту..."}, () -> {levelScreen.blockAction(500, ()->{fido.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
             };
             Action winAction = () -> {
                 fido.X = 5;
@@ -411,22 +439,78 @@ public class LevelManager {
             });
         };
 
+        //Seventh build
+        {Action sevBToSndPl = ()->{secondPlatz.X=13; secondPlatz.Y=7; loadLevel(secondPlatz);}; seventhBuild.tiles[7][6].action=sevBToSndPl;seventhBuild.tiles[8][6].action=sevBToSndPl;}
+        {
+            Action afterAction = ()->{
+                seventhBuild.X=4;
+                seventhBuild.Y=3;
+                loadLevel(seventhBuild);
+            };
+            Action winAction = ()->{
+                game.level+=3;
+                removeJanitor.execute();
+                seventhBuild.dialog = new Dialog(new String[]{"Ти пізнав непорушні закони матерії.\r\nАле для кого існують ці закони, як не для живих?\r\nНайскладніший механізм у Всесвіті — це життя.", "Його таємниці та вразливість бережуть на Факультеті Охорони Здоров'я,\r\nщо між 2 плацом та КМЦ."}, () -> {levelScreen.blockAction(500, ()->{seventhBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Fight boss7Fight = new Fight(new Texture("isometric\\fights\\boss7Loc.png"), game.type, game.level, "Бос ФПРН", new Texture("isometric\\npc\\boss7.png"), Types.FPRN, 15, afterAction, winAction);
+
+            generateStaticNPC(seventhBuild, new LevelTexture("boss7.png", 4, 4), new String[]{"Ти знаєш чому я гарний науковець?\r\nЯкби я був поганим науковцем ми б зараз не теревенили тут, чи не так?\r\n Кілька зайвих крапель нітрогліцерину чи помилка у формулі,\r\nі ти вже розмазаний по стіні!", "Ти думаєш що можеш відтворити цю формулу?\r\nНу що ж, вперед, я чекаю!"}, ()->{
+                boss7Fight.playerType=game.type;
+                boss7Fight.playerLvl=game.level;
+                loadFight(boss7Fight);
+            });
+        }
 
         secondPlatz.tiles[22][19].occupied = false;
         secondPlatz.tiles[22][19].action = () -> {
-            kmz.X=27;
-            kmz.Y=3;
-            loadLevel(kmz);
+            eighthBuild.X=16;
+            eighthBuild.Y=1;
+            loadLevel(eighthBuild);
         };
+
+        //Eighth build
+        {Action eightToKMZ = ()->{kmz.X=27;kmz.Y=3;loadLevel(kmz);};eighthBuild.tiles[16][21].action=eightToKMZ;eighthBuild.tiles[17][21].action=eightToKMZ;
+            eighthBuild.tiles[17][17].occupied = true;
+            LevelTexture chair = new LevelTexture("chair.png", 17, 17);
+            eighthBuild.otherTextures.add(chair);
+            Action afterAction = ()->{
+                eighthBuild.X=17;
+                eighthBuild.Y=17;
+                loadLevel(eighthBuild);
+            };
+            Action winAction = ()->{
+                game.level+=3;
+                eighthBuild.otherTextures.remove(chair);eighthBuild.tiles[17][17].occupied = false;
+                eighthBuild.dialog = new Dialog(new String[]{"Ти врятував людину.\r\nТи торкнувся найціннішого.\r\nАле чи можна зцілити всіх, не змінивши систему, в якій вони хворіють?", "Ти зробив повне коло і повернувся до початку. Тепер ти готовий..."}, () -> {levelScreen.blockAction(500, ()->{eighthBuild.dialog = new Dialog(new String[]{game.playerName+" підвищився до "+game.level+" рівня!"}, ()->{});});});
+            };
+            Fight boss8Fight = new Fight(new Texture("isometric\\fights\\boss1Loc.png"), game.type, game.level, "Бос ФОЗ", new Texture("isometric\\npc\\boss8.png"), Types.FOZ, 18, afterAction, winAction);
+
+            generateStaticNPC(eighthBuild, new LevelTexture("boss8.png", 16, 17), new String[]{"Ти виглядаєш трохи... нездоровим.\r\nБлідий колір обличчя, прискорене серцебиття.\r\nСимптоми очевидні: страх перед неминучим.\r\nНе хвилюйся, я можу це виправити.", "Знаєш, коли я отримав диплом, я присягнув допомагати людям.\r\nАле знаєш, що виявилося?\r\nЗцілення... не таке вже й веселе, як заподіяння болю.\r\nНу що ж, давай застосуємо все на практиці!"}, ()->{
+                boss8Fight.playerType=game.type;
+                boss8Fight.playerLvl=game.level;
+                loadFight(boss8Fight);
+            });
+        }
 
         //KMZ
         LevelTexture beatFinal = new LevelTexture(beatriceTexture, 27, 8);
+        LevelTexture beatEpilog = new LevelTexture(beatriceTexture, 12, 9);
         kmz.otherTextures.add(beatFinal);
+        kmz.tiles[26][3].occupied = true;kmz.tiles[28][3].occupied = true;
+        generateStaticNPC(kmz, new LevelTexture("boss1.png", 26, 4), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss2.png", 28, 4), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss3.png", 26, 5), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss4.png", 28, 5), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss5.png", 26, 6), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss6.png", 28, 6), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss7.png", 26, 7), new String[]{"..."}, ()->{});generateStaticNPC(kmz, new LevelTexture("boss8.png", 28, 7), new String[]{"..."}, ()->{});
         kmz.tiles[27][8].occupied=true;
         kmz.tiles[27][8].interaction = () -> {
-            Action afterAction = () -> {kmz.X=27; kmz.Y=7;loadLevel(kmz);};
+            Action afterAction = () -> {kmz.X=12; kmz.Y=8; loadLevel(kmz);};
             Action winAction = () -> {
-                //TODO game end
+                kmz.tiles[27][8].interaction=null;
+                kmz.tiles[27][2].action=null;
+                kmz.otherTextures.clear();
+                kmz.tiles[28][3].occupied = false;kmz.tiles[26][3].occupied = false;kmz.tiles[27][2].occupied = true;kmz.tiles[27][8].occupied = false;kmz.tiles[26][4].occupied = false;kmz.tiles[28][4].occupied = false;kmz.tiles[26][5].occupied = false;kmz.tiles[28][5].occupied = false;kmz.tiles[26][6].occupied = false;kmz.tiles[28][6].occupied = false;kmz.tiles[26][7].occupied = false;kmz.tiles[28][7].occupied = false;
+                generateStaticNPC(kmz, beatEpilog, new String[]{
+                    "Агов!", "Агов, отямся!\r\nТи знову хильнув зайвого на останньому п'ятничному КМЦ і ночував на лаві.", "Що? Що тобі снилося?\r\nЯкі битви з босами, які напівбоги, яка Беатріче?\r\nМене ж звати Аня.\r\nПоїхали вже на Трою!", "THE END"
+                },()->{
+                    Gdx.app.exit();
+                });
             };
             Fight finalFight = new Fight(new Texture("isometric\\fights\\finalLoc.png"), game.type, game.level, "Беатріче", new Texture("isometric\\npc\\" + beatriceTexture), game.type, (game.level-1)>0? game.level-1 : 1, afterAction, winAction);
 
@@ -436,9 +520,9 @@ public class LevelManager {
             });
         };
         kmz.tiles[27][2].action = () -> {
-            secondPlatz.X = 22;
-            secondPlatz.Y = 18;
-            loadLevel(secondPlatz);
+            eighthBuild.X = 16;
+            eighthBuild.Y = 20;
+            loadLevel(eighthBuild);
         };
 
     }

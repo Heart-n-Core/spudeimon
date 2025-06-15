@@ -103,13 +103,15 @@ public class Move {
                 break;
             }
             case FSNST: {
-                Move poll = new Move(fighter, "CоцІаЛьНе ОпитУвАннЯ", 1);
+                Move poll = new Move(fighter, "Cоціальне Опитування", 1);
                 poll.description = "Завдає дуже малої шкоди, але\nдозволяє дізнатися,яку\nатаку супротивник планує\nвикористати в наступному ході.\n1 ОП";
                 poll.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
                 Move meeting = new Move(fighter, "Скликаю міт", 3);
                 meeting.description = "Соціолог мобілізує громадську\nдумку.Несподівана атака,\nщо завдає середньої шкоди\r\nі тимчасово знижує захист\nсупротивника на 50%.\n3 ОП";
-                meeting.moveAction = ()->{dealDamage(mediumDamage, fighter); fighter.atck*=0.5f;};
+                meeting.moveAction = ()->{dealDamage(mediumDamage, fighter);
+//                    fighter.atck*=0.5f;
+                };
                 meeting.messages = new String[]{"Ціль втратила половину сили атаки",null,null};
 
                 Move socialRevolution = new Move(fighter, "РЕВОЛЮЦІЯ!", 5);
@@ -165,16 +167,21 @@ public class Move {
                 break;
             }
             case FEN: {
-                Move question = new Move(fighter, "Риторичне питання", 2);
-                question.description="Атака, що завдає мінімальної\nшкоди, але змушує супротивника\nсумніватися у своїх силах, \r\nтимчасово знижуючи його\nпоказник атаки на 25%.\n2 ОП";
+                Move question = new Move(fighter, "Ринкова флуктуація", 1);
+                question.description="Нестабільна атака. Шкода\r\nвизначається випадково і може\r\nбути як дуже низькою, так і\r\nнеочікувано високою.\r\n1 ОП";
                 question.moveAction = ()->{dealDamage(litleDamage, fighter);};
 
-                Move deconstruction = new Move(fighter, "Деконструкція", 3);
-                deconstruction.description = "Гуманітарій розбирає аргументи\nсупротивника на частини,\nзавдаючи середньої шкоди\nта знімаючи з нього\nвсі позитивні ефекти.\n3 ОП";
+                Move deconstruction = new Move(fighter, "Політика економії", 3);
+                deconstruction.description = "Завдає середньої шкоди та\n" +
+                    "накладає на супротивника\n" +
+                    "'бюджетні обмеження',\n" +
+                    "збільшуючи вартість його атак\n" +
+                    "на 1 ОП на наступний хід.\n" +
+                    "3 ОП";
                 deconstruction.moveAction = ()->{dealDamage(mediumDamage, fighter);};
 
-                Move reset = new Move(fighter, "Культурний ресет", 5);
-                reset.description = "Потужна атака, що змінює сам\n«наратив» битви. Завдає великої\nшкоди і робить опонента\nвразливим до атак будь-якого\nтипу на наступні два ходи\r\n(отримує на 20% більше шкоди).\n5 ОП";
+                Move reset = new Move(fighter, "Невидима рука ринку", 5);
+                reset.description = "Потужна атака, що завдає\r\nвеликої шкоди. Вона ігнорує\r\nвсі захисні бафи, оскільки є\r\nсистемною силою, а не\r\nпрямим ударом.\r\n5 ОП";
                 reset.moveAction = ()->{dealDamage(bigDamage, fighter);};
                 typeMoves[0]=question; typeMoves[1]=deconstruction;typeMoves[2]=reset;
                 break;
