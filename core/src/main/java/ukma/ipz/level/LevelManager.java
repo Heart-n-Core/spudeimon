@@ -1210,5 +1210,68 @@ public class LevelManager {
 
         for (int i = 3; i <= 5; i++)  fourthBuild.tiles[10][i].occupied = true;
 
+        for (int i = 5; i <= 7; i++) {
+            seventhBuild.tiles[9][i].occupied = true;
+            seventhBuild.tiles[6][i].occupied = true;
+        }
+        for (int i = 0; i <= 6; i++) seventhBuild.tiles[i][5].occupied = true;
+        for (int i = 9; i <= 11; i++) seventhBuild.tiles[i][5].occupied = true;
+
+        for (int i = 0; i <= 7; i++) {
+            seventhBuild.tiles[0][i].occupied = true;
+            seventhBuild.tiles[11][i].occupied = true;
+        }
+        for (int i = 0; i <= 11; i++) seventhBuild.tiles[i][0].occupied = true;
+
+        seventhBuild.tiles[1][2].occupied = true;
+        seventhBuild.tiles[1][3].occupied = true;
+
+        for (int i = 4; i<= 7; i++)
+            for (int j = 1; j <= 2; j++)
+                seventhBuild.tiles[i][j].occupied = true;
+
+        for (int i = 9; i<= 10; i++)
+            for (int j = 1; j <= 2; j++)
+                seventhBuild.tiles[i][j].occupied = true;
+
+        seventhBuild.tiles[10][5].occupied = true;
+        seventhBuild.tiles[9][5].occupied = true;
+
+
+        for (int i = 0; i <= 1; i++) {
+            eighthBuild.tiles[15][i].occupied = true;
+            eighthBuild.tiles[18][i].occupied = true;
+        }
+        for (int i = 0; i <= 15; i++) {
+            eighthBuild.tiles[i][1].occupied = true;
+            eighthBuild.tiles[i][18].occupied = true;
+        }
+        for (int i = 18; i <= 33; i++) {
+            eighthBuild.tiles[i][1].occupied = true;
+            eighthBuild.tiles[i][18].occupied = true;
+        }
+
+        for (int i = 17; i <= 21; i++) {
+            eighthBuild.tiles[15][i].occupied = true;
+            eighthBuild.tiles[18][i].occupied = true;
+        }
+
+        for (int i = 1; i <= 18; i++) {
+            eighthBuild.tiles[0][i].occupied = true;
+            eighthBuild.tiles[33][i].occupied = true;
+        }
+
+        for (int i = 19; i <= 31; i+=2) {
+            for (int j = 3; j <= 15; j+=3) {
+                eighthBuild.tiles[i][j].occupied = true;
+            }
+        }
+
+        for (int i = 2; i <= 14; i+=2) {
+            for (int j = 3; j <= 15; j+=3) {
+                eighthBuild.tiles[i][j].occupied = true;
+            }
+        }
+
     } //Method end
 }
